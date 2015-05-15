@@ -1,0 +1,61 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\section{The Problem}
+
+When maintaining several servers and/or clients, you can choose between some
+options to restrict the access for maintenance functionality (like sudo in
+Linux / Unix) to authorized staff only, but they have some issues:
+
+\begin{enumerate}
+	\item There is a seperate maintenance account on the target maching with a
+		fixed password.
+		\begin{itemize}
+			\item If your customer gets the password, he has full access on the
+				target machine until you change the password. After you have
+				changed it, you have to inform all your employees about the new
+				password and if you have used the same password all over the
+				network, this is very time consuming.
+			\item If an employee left your company, you have to change all
+				passwords he could know. This is very time consuming, so you'll
+				never do that until you really have to, so mostly he'll have
+				access to this machine until the livetime of it.
+		\end{itemize}
+
+	\item Every employee has its own account on the target machine. The
+		password should be the same over all machines, so the employee won't
+		forget all these passwords.
+		\begin{itemize}
+			\item If you get a new employee or one left, you have to add /
+				delete the accounts on all machines where the employee needs
+				access. This is \textit{really} time consuming.
+			\item If you use a solution like LDAP or any other database for
+				the users credentials, every machine needs a connection to your
+				database with its own credentials and you have to open your
+				database connection for the world wide web, which might be a
+				security issue.
+		\end{itemize}
+\end{enumerate}
+
+No matter which solution you use, it gets really complicated at least with an
+increasing number of machines you are maintaining.
