@@ -64,3 +64,26 @@ Thus we have a simple structure for the requests: The client sends a request to
 the server for getting information about a user, group or shadow entry by ID or
 name. The server will lookup the entry in its database backend and (if the entry
 exists) he'll send a respond back to the client.
+
+
+\subsection{User authentication}
+
+Usually the employees will login to the customer machines via
+SSH\footnote{\textbf{S}ecure \textbf{SH}ell} and should authenticate with
+key authentication. To reduce the maintenance overhead, the public keys of your
+employees also will be stored on your companys servers and a helper script on
+the client machine will retrieve them on demand over the central API. This gives
+the advantage to manage the ssh keys together with the user credentials and no
+keys have to be copied on all server by hand. \\
+
+For physical access NSS will retrieve the employees shadow entrys over the API,
+so the user can login with a password. \\
+
+As additional security level
+TOTP\footnote{\textbf{T}ime-based \textbf{O}ne-\textbf{T}ime \textbf{P}assword}
+should be used. To reduce the maintenance overhead, also the API should be used
+to distribute the HMAC keys. Usually these keys should only be known by the user
+and the target server, because this is no asymetric algorithm, so everyone who
+has a copy of this key is able to generate TOTP tokens. But otherwise a
+synchronisation between all customer machines would be impossible, so it relies
+on a stable and secure protocol, so noone else could get these keys.
