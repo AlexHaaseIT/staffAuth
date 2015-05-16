@@ -31,6 +31,7 @@ include(UseLATEX)
 add_latex_document(paper.tex
 	INPUTS
 		abstract.tex
+		concept.tex
 		problem.tex
 	DEFAULT_PDF
 )

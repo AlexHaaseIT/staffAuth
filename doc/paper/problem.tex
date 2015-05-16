@@ -21,7 +21,7 @@
 %
 
 
-\section{The Problem}
+\section{Problem}
 
 When maintaining several servers and/or clients, you can choose between some
 options to restrict the access for maintenance functionality (like sudo in
@@ -49,6 +49,9 @@ Linux / Unix) to authorized staff only, but they have some issues:
 			\item If you get a new employee or one left, you have to add /
 				delete the accounts on all machines where the employee needs
 				access. This is \textit{really} time consuming.
+			\item It is very time consuming to change the password for a single
+				user. As more machines you have to maintain, as more time you'll
+				need.
 			\item If you use a solution like LDAP or any other database for
 				the users credentials, every machine needs a connection to your
 				database with its own credentials and you have to open your
