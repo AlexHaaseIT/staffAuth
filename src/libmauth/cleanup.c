@@ -19,16 +19,16 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <maintain.h>
+#include <mauth.h>
 
 #include <curl/curl.h>
 
 
-/** \brief This function cleans up the environment of libmaintain.
+/** \brief This function cleans up the environment of libmauth.
  *
  * \details This function releases resources acquired by
- *  \ref maintain_init. You should call it once for each call you make to
- *  \ref maintain_init.
+ *  \ref mauth_init. You should call it once for each call you make to
+ *  \ref mauth_init.
  *
  *
  * \note This function is not thread safe. You must not call it when any other
@@ -40,7 +40,7 @@
  * \return This function returnes no value.
  */
 void
-maintain_cleanup()
+mauth_cleanup()
 {
 	// cleanup cURL environment
 	curl_global_cleanup();

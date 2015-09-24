@@ -19,16 +19,16 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <maintain.h>
+#include <mauth.h>
 
 #include <curl/curl.h>
 
 
-/** \brief This function sets up the program environment that libmaintain needs.
+/** \brief This function sets up the program environment that libmauth needs.
  *
  * \details This function must be called at least once before any other function
- *  of libmaintain will be called. It sets up the environment that is needed by
- *  all functions of libmaintain.
+ *  of libmauth will be called. It sets up the environment that is needed by
+ *  all functions of libmauth.
  *
  *
  * \note This function is not thread safe. You must not call it when any other
@@ -38,10 +38,10 @@
  *
  *
  * \return If this function returns non-zero, something went wrong and you
- *  cannot use the other functions of libmaintain.
+ *  cannot use the other functions of libmauth.
  */
 int
-maintain_init()
+mauth_init()
 {
 	// init cURL environment
 	if (curl_global_init(CURL_GLOBAL_DEFAULT) != 0)

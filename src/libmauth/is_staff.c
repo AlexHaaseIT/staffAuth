@@ -19,12 +19,19 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef LIBMAINTAIN_H
-#define LIBMAINTAIN_H
+#include <mauth.h>
+
+#include <string.h>
 
 
-int maintain_init();
-void maintain_cleanup();
+/** \brief
+ */
+bool
+mauth_is_staff(const char *username)
+{
+	if (strlen(username) > 4)
+		if (strncmp(username, "adm_", 4) == 0)
+			return true;
 
-
-#endif
+	return false;
+}

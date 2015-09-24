@@ -21,4 +21,4 @@
 #
 
 # recurse into subdirectories
-add_subdirectory(libmaintain)
+add_subdirectory(libmauth)

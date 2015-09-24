@@ -29,10 +29,11 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
 # build library
-add_library(maintain SHARED
+add_library(mauth SHARED
 	init.c
 	cleanup.c
+	is_staff.c
 )
 
 # link against cURL
-target_link_libraries(maintain ${CURL_LIBRARIES})
+target_link_libraries(mauth ${CURL_LIBRARIES})
