@@ -20,6 +20,7 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-# recurse into subdirectories
-add_subdirectory(libmauth)
-add_subdirectory(libnss_mauth)
+# build library
+add_library(nss_mauth SHARED
+	passwd.c
+)
