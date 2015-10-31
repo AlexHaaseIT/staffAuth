@@ -46,7 +46,7 @@ _nss_mauth_getpwnam_r(const char *name, struct passwd *pwd, char *buffer,
 	strcpy(buffer, name);
 	pwd->pw_name = buffer;
 
-	return NSS_STATUS_FOUND;
+	return NSS_STATUS_SUCCESS;
 }
 
 
