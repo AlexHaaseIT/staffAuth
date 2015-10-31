@@ -1,0 +1,72 @@
+# This file is part of staffAuth.
+#
+# staffAuth is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see
+#
+#   http://www.gnu.org/licenses/
+#
+#
+# Copyright (C)
+#   2015 Alexander Haase IT Services <support@alexhaase.de>
+#
+
+
+# Basicaly we use LLVM style, but have some changes listet in this
+# configuration.
+BasedOnStyle: LLVM
+
+# A maximum of two blank lines are allowed.
+MaxEmptyLinesToKeep: 2
+
+# We do not use tabs. For indentation 4 spaces are used.
+IndentWidth: 8
+UseTab:      ForIndentation
+
+# We have a column limit of 80. Comments should also abide this limit.
+PenaltyBreakComment: 80
+
+# If lines must be continued in one ore more next lines, indent them with 8
+# spaces.
+ContinuationIndentWidth: 8
+
+
+---
+Language: Cpp
+
+# Do not allow putting all parameters of a function declaration onto the next
+# line even if BinPackParameters is false.
+AllowAllParametersOfDeclarationOnNextLine: false
+
+# Align escaped newlines as far left as possible.
+AlignEscapedNewlinesLeft: true
+
+# Never merge functions into a single line.
+AllowShortFunctionsOnASingleLine: None
+
+# Always break after the return type.
+AlwaysBreakAfterDefinitionReturnType: All
+
+# Always attach braces to surrounding context, but break before braces on
+# function, namespace and class definitions.
+BreakBeforeBraces: Mozilla
+
+# Indent case labels one level from the switch statement.
+IndentCaseLabels: true
+
+# Empty lines at the start of blocks will not be kept.
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Insert a space after C style casts.
+SpaceAfterCStyleCast: true
+
+...
