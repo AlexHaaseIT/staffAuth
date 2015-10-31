@@ -19,31 +19,21 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <mauth.h>
-
-#include <string.h>
-
-#include "config.h"
+/* Disable clang-format for this file, because it has entries like @...@ which
+ * will confuse clang-format. */
+// clang-format off
 
 
-/** \brief Check if \p username is a valid username to be authenticated by
- *  mauth.
- *
- *
- * \param username Username to be validated.
- *
- * \return Returns true if \p username is a user to be authenticated by mauth or
- *  false if not.
- */
-bool
-mauth_is_staff(const char *username)
-{
-	/* Compare username with prefix for users that will be authenticated by
-	 * mauth. If the prefix matches and username is longer than
-	 * MAUTH_USER_PREFIX, username is valid. */
-	if (strncmp(username, MAUTH_USER_PREFIX, STRLEN(MAUTH_USER_PREFIX)) == 0)
-		if (*(username + STRLEN(MAUTH_USER_PREFIX)) != '\0')
-			return true;
+#define MAUTH_UIDMAP_MIN @MAUTH_UIDMAP_MIN@
+#define MAUTH_UIDMAP_MAX @MAUTH_UIDMAP_MAX@
+#define MAUTH_USER_PREFIX "@MAUTH_USER_PREFIX@"
 
-	return false;
-}
+
+// clang-format on
+
+
+/* For MAUTH_USER_PREFIX and MAUTH_GROUP_PREFIX we'll need the length of the
+ * string. To get the length, we can use the following macro. Thus sizeof() is
+ * resolved at compile time, it will produce a static integer instead of a
+ * function call to strlen each time the length of s is needed. */
+#define STRLEN(s) ((sizeof(s) / sizeof(s[0])) - 1)

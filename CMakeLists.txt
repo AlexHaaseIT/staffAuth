@@ -45,7 +45,14 @@ endif (POLICY CMP0042)
 #
 # cmake configuration
 #
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH
+	"${CMAKE_SOURCE_DIR}/externals/cmake-codecov/cmake"
+	"${CMAKE_SOURCE_DIR}/externals/UseLATEX"
+	${CMAKE_MODULE_PATH}
+)
+
+# enable code coverage
+find_package(codecov)
 
 
 #
@@ -53,3 +60,13 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 #
 add_subdirectory(doc)
 add_subdirectory(src)
+
+option(ENABLE_TESTS "Selects whether tests are built." FALSE)
+if (ENABLE_TESTS)
+	enable_testing()
+	add_subdirectory(tests)
+endif (ENABLE_TESTS)
+
+
+# evaluate coverage data
+coverage_evaluate()

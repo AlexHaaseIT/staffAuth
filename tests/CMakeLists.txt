@@ -20,31 +20,5 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-# default values for config.h
-set(MAUTH_UIDMAP_MIN "65537" CACHE STRING "Minimum UID for mauth users.")
-set(MAUTH_UIDMAP_MAX "99999" CACHE STRING "Maximum UID for mauth users.")
-set(MAUTH_USER_PREFIX "adm_" CACHE STRING "Prefix for mauth users.")
-
-# configure config.h
-configure_file(config.h.in config.h)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-
-# include header directory
-include_directories(header)
-
-
-# search for cURL
-find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIRS})
-
-# build library
-add_library(mauth SHARED
-	init.c
-	cleanup.c
-	is_staff.c
-)
-add_coverage(mauth)
-
-# link against cURL
-target_link_libraries(mauth ${CURL_LIBRARIES})
+# recurse into subdirectories
+add_subdirectory(mauth)

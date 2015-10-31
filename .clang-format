@@ -28,8 +28,9 @@ BasedOnStyle: LLVM
 # A maximum of two blank lines are allowed.
 MaxEmptyLinesToKeep: 2
 
-# We do not use tabs. For indentation 4 spaces are used.
-IndentWidth: 8
+# For indentation a tab is used. A tab counts as 4 spaces.
+IndentWidth: 4
+TabWidth:    4
 UseTab:      ForIndentation
 
 # We have a column limit of 80. Comments should also abide this limit.
