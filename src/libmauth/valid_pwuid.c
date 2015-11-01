@@ -19,11 +19,21 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-/* Disable clang-format for this file, because it has entries like @...@ which
- * will confuse clang-format. */
-// clang-format off
+#include <mauth.h>
+
+#include "config.h"
 
 
-#define MAUTH_UIDMAP_MIN @MAUTH_UIDMAP_MIN@
-#define MAUTH_UIDMAP_MAX @MAUTH_UIDMAP_MAX@
-#define MAUTH_USER_PREFIX "@MAUTH_USER_PREFIX@"
+/** \brief Check if \p uid is a valid uid to be authenticated by mauth.
+ *
+ *
+ * \param uid User-ID to be validated.
+ *
+ * \return Returns true if \p uid is a uid to be authenticated by mauth or false
+ *  if not.
+ */
+bool
+mauth_valid_pwuid(const uid_t uid)
+{
+	return ((uid >= MAUTH_UIDMAP_MIN) && (uid <= MAUTH_UIDMAP_MAX));
+}

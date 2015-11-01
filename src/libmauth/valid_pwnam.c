@@ -19,22 +19,32 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <mauth.h>
 
-int
-main(int argc, char **argv)
+#include <string.h>
+
+#include "config.h"
+
+
+/** \brief Check if \p username is a valid username to be authenticated by
+ *  mauth.
+ *
+ *
+ * \param username Username to be validated.
+ *
+ * \return Returns true if \p username is a user to be authenticated by mauth or
+ *  false if not.
+ */
+bool
+mauth_valid_pwnam(const char *username)
 {
-	if (argc < 2) {
-		fprintf(stderr, "usage: %s username\n", argv[0]);
-		exit(EXIT_FAILURE);
-	}
+	/* Compare username with prefix for users that will be authenticated by
+	 * mauth. If the prefix matches and username is longer than
+	 * MAUTH_USER_PREFIX, username is valid. */
+	size_t len = strlen(MAUTH_USER_PREFIX);
+	if (strncmp(username, MAUTH_USER_PREFIX, len) == 0)
+		if (*(username + len) != '\0')
+			return true;
 
-	bool ret = mauth_is_staff(argv[1]);
-
-	printf("%s\n", ret ? "valid" : "invalid");
-
-	return ret ? EXIT_SUCCESS : EXIT_FAILURE;
+	return false;
 }

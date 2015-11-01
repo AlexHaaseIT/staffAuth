@@ -19,11 +19,22 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-/* Disable clang-format for this file, because it has entries like @...@ which
- * will confuse clang-format. */
-// clang-format off
+#include <stdio.h>
+#include <stdlib.h>
 
+#include <mauth.h>
 
-#define MAUTH_UIDMAP_MIN @MAUTH_UIDMAP_MIN@
-#define MAUTH_UIDMAP_MAX @MAUTH_UIDMAP_MAX@
-#define MAUTH_USER_PREFIX "@MAUTH_USER_PREFIX@"
+int
+main(int argc, char **argv)
+{
+	if (argc < 2) {
+		fprintf(stderr, "usage: %s user-id\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+
+	bool ret = mauth_valid_pwuid((uid_t) atoi(argv[1]));
+
+	printf("%s\n", ret ? "valid" : "invalid");
+
+	return ret ? EXIT_SUCCESS : EXIT_FAILURE;
+}

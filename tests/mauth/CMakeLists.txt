@@ -20,31 +20,53 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
+macro(mauth_valid_test testname command argument expected_stdout)
+	add_test(NAME ${testname} COMMAND ${command} ${argument})
+	set_tests_properties(${testname}
+		PROPERTIES PASS_REGULAR_EXPRESSION ${expected_stdout}
+	)
+endmacro()
+
+
+#
+# valid_pwnam
+#
+
+# add executable
 include_directories(../../src/libmauth/header)
-add_executable(is_staff_username is_staff_username.c)
-target_link_libraries(is_staff_username mauth)
+add_executable(mauth_valid_pwnam valid_pwnam.c)
+target_link_libraries(mauth_valid_pwnam mauth)
+
+mauth_valid_test("mauth_valid_username_NoError" mauth_valid_pwnam
+	"${MAUTH_USER_PREFIX}testuser" "valid")
+
+mauth_valid_test("mauth_valid_username_PrefixOnly" mauth_valid_pwnam
+	"${MAUTH_USER_PREFIX}" "invalid")
+
+mauth_valid_test("mauth_valid_username_RandomUser" mauth_valid_pwnam
+	"somerandomuser" "invalid")
 
 
-# First test with valid user.
-add_test(NAME mauth_valid_user_NoError
-	COMMAND is_staff_username "${MAUTH_USER_PREFIX}testuser"
-)
-set_tests_properties(mauth_valid_user_NoError
-	PROPERTIES PASS_REGULAR_EXPRESSION "valid"
-)
+#
+# valid_pwuid
+#
 
-# Only prefix as user should fail.
-add_test(NAME mauth_valid_user_PrefixOnly
-	COMMAND is_staff_username "${MAUTH_USER_PREFIX}"
-)
-set_tests_properties(mauth_valid_user_PrefixOnly
-	PROPERTIES PASS_REGULAR_EXPRESSION "invalid"
-)
+# add executable
+include_directories(../../src/libmauth/header)
+add_executable(mauth_valid_pwuid valid_pwuid.c)
+target_link_libraries(mauth_valid_pwuid mauth)
 
-# Random user should fail
-add_test(NAME mauth_valid_user_RandomUser
-	COMMAND is_staff_username "somerandomuser"
-)
-set_tests_properties(mauth_valid_user_RandomUser
-	PROPERTIES PASS_REGULAR_EXPRESSION "invalid"
-)
+mauth_valid_test("mauth_valid_uid_NoError1" mauth_valid_pwuid
+	"${MAUTH_UIDMAP_MIN}" "valid")
+
+mauth_valid_test("mauth_valid_uid_NoError2" mauth_valid_pwuid
+	"${MAUTH_UIDMAP_MAX}" "valid")
+
+math(EXPR tmp "(${MAUTH_UIDMAP_MAX} - ${MAUTH_UIDMAP_MIN}) / 2")
+mauth_valid_test("mauth_valid_uid_NoError3" mauth_valid_pwuid "${tmp}" "valid")
+
+math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
+mauth_valid_test("mauth_valid_uid_tolow" mauth_valid_pwuid "${tmp}" "invalid")
+
+math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
+mauth_valid_test("mauth_valid_uid_tohigh" mauth_valid_pwuid "${tmp}" "invalid")

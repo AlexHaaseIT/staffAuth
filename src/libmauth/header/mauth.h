@@ -23,13 +23,15 @@
 #define LIBMAUTH_H
 
 
-#include <stdbool.h>
+#include <stdbool.h>   // bool
+#include <sys/types.h> // uid_t
 
+
+bool mauth_valid_pwnam(const char *username);
+bool mauth_valid_pwuid(const uid_t uid);
 
 int mauth_init();
 void mauth_cleanup();
-
-bool mauth_is_staff(const char *username);
 
 
 #endif

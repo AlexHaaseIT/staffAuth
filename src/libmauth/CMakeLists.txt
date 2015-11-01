@@ -40,9 +40,11 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 # build library
 add_library(mauth SHARED
+	valid_pwnam.c
+	valid_pwuid.c
+
 	init.c
 	cleanup.c
-	is_staff.c
 )
 add_coverage(mauth)
 
