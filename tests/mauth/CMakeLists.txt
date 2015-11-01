@@ -37,13 +37,13 @@ include_directories(../../src/libmauth/header)
 add_executable(mauth_valid_pwnam valid_pwnam.c)
 target_link_libraries(mauth_valid_pwnam mauth)
 
-mauth_valid_test("mauth_valid_username_NoError" mauth_valid_pwnam
+mauth_valid_test("mauth_valid_pwnam_NoError" mauth_valid_pwnam
 	"${MAUTH_USER_PREFIX}testuser" "valid")
 
-mauth_valid_test("mauth_valid_username_PrefixOnly" mauth_valid_pwnam
+mauth_valid_test("mauth_valid_pwnam_PrefixOnly" mauth_valid_pwnam
 	"${MAUTH_USER_PREFIX}" "invalid")
 
-mauth_valid_test("mauth_valid_username_RandomUser" mauth_valid_pwnam
+mauth_valid_test("mauth_valid_pwnam_RandomUser" mauth_valid_pwnam
 	"somerandomuser" "invalid")
 
 
@@ -56,17 +56,17 @@ include_directories(../../src/libmauth/header)
 add_executable(mauth_valid_pwuid valid_pwuid.c)
 target_link_libraries(mauth_valid_pwuid mauth)
 
-mauth_valid_test("mauth_valid_uid_NoError1" mauth_valid_pwuid
+mauth_valid_test("mauth_valid_pwuid_NoError1" mauth_valid_pwuid
 	"${MAUTH_UIDMAP_MIN}" "valid")
 
-mauth_valid_test("mauth_valid_uid_NoError2" mauth_valid_pwuid
+mauth_valid_test("mauth_valid_pwuid_NoError2" mauth_valid_pwuid
 	"${MAUTH_UIDMAP_MAX}" "valid")
 
 math(EXPR tmp "(${MAUTH_UIDMAP_MAX} - ${MAUTH_UIDMAP_MIN}) / 2")
-mauth_valid_test("mauth_valid_uid_NoError3" mauth_valid_pwuid "${tmp}" "valid")
+mauth_valid_test("mauth_valid_pwuid_NoError3" mauth_valid_pwuid "${tmp}" "valid")
 
 math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
-mauth_valid_test("mauth_valid_uid_tolow" mauth_valid_pwuid "${tmp}" "invalid")
+mauth_valid_test("mauth_valid_pwuid_tolow" mauth_valid_pwuid "${tmp}" "invalid")
 
 math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
-mauth_valid_test("mauth_valid_uid_tohigh" mauth_valid_pwuid "${tmp}" "invalid")
+mauth_valid_test("mauth_valid_pwuid_tohigh" mauth_valid_pwuid "${tmp}" "invalid")
