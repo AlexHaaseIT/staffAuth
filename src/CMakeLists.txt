@@ -20,6 +20,9 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
+# setup easylib
+include(easylib)
+
 # recurse into subdirectories
 add_subdirectory(libmauth)
 add_subdirectory(libnss_mauth)
