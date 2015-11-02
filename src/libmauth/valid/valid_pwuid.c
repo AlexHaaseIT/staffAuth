@@ -33,7 +33,7 @@
  *  if not.
  */
 bool
-mauth_valid_pwuid(const uid_t uid)
+mauth_valid_pwuid(uid_t uid)
 {
 	return ((uid >= MAUTH_UIDMAP_MIN) && (uid <= MAUTH_UIDMAP_MAX));
 }

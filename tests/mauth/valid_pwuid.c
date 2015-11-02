@@ -28,7 +28,7 @@ int
 main(int argc, char **argv)
 {
 	if (argc < 2) {
-		fprintf(stderr, "usage: %s user-id\n", argv[0]);
+		fprintf(stderr, "usage: %s uid\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 

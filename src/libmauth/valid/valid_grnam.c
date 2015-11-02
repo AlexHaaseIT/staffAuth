@@ -26,23 +26,23 @@
 #include "config.h"
 
 
-/** \brief Check if \p name is a valid username to be authenticated by mauth.
+/** \brief Check if \p name is a valid group to be authenticated by mauth.
  *
  *
- * \param login User login to be validated.
+ * \param name Group to be validated.
  *
- * \return Returns true if \p login is a user to be authenticated by mauth or
+ * \return Returns true if \p name is a group to be authenticated by mauth or
  *  false if not.
  */
 bool
-mauth_valid_pwnam(const char *login)
+mauth_valid_grnam(const char *name)
 {
-	/* Compare login with prefix for users that will be authenticated by mauth.
-	 * If the prefix matches and login is longer than MAUTH_USER_PREFIX, login
-	 * is valid. */
-	size_t len = strlen(MAUTH_USER_PREFIX);
-	if (strncmp(login, MAUTH_USER_PREFIX, len) == 0)
-		if (*(login + len) != '\0')
+	/* Compare name with prefix for groups that will be authenticated by mauth.
+	 * If the prefix matches and name is longer than MAUTH_USER_PREFIX, name is
+	 * valid. */
+	size_t len = strlen(MAUTH_GROUP_PREFIX);
+	if (strncmp(name, MAUTH_GROUP_PREFIX, len) == 0)
+		if (*(name + len) != '\0')
 			return true;
 
 	return false;

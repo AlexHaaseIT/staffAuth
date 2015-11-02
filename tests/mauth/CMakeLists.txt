@@ -70,3 +70,47 @@ mauth_valid_test("mauth_valid_pwuid_tolow" mauth_valid_pwuid "${tmp}" "invalid")
 
 math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
 mauth_valid_test("mauth_valid_pwuid_tohigh" mauth_valid_pwuid "${tmp}" "invalid")
+
+
+#
+# valid_grnam
+#
+
+# add executable
+include_directories(../../src/libmauth/header)
+add_executable(mauth_valid_grnam valid_grnam.c)
+target_link_libraries(mauth_valid_grnam mauth)
+
+mauth_valid_test("mauth_valid_grnam_NoError" mauth_valid_grnam
+	"${MAUTH_GROUP_PREFIX}testgroup" "valid")
+
+mauth_valid_test("mauth_valid_grnam_PrefixOnly" mauth_valid_grnam
+	"${MAUTH_GROUP_PREFIX}" "invalid")
+
+mauth_valid_test("mauth_valid_grnam_RandomGroup" mauth_valid_grnam
+	"somerandomgroup" "invalid")
+
+
+#
+# valid_grgid
+#
+
+# add executable
+include_directories(../../src/libmauth/header)
+add_executable(mauth_valid_grgid valid_grgid.c)
+target_link_libraries(mauth_valid_grgid mauth)
+
+mauth_valid_test("mauth_valid_grgid_NoError1" mauth_valid_grgid
+	"${MAUTH_GIDMAP_MIN}" "valid")
+
+mauth_valid_test("mauth_valid_grgid_NoError2" mauth_valid_grgid
+	"${MAUTH_UIDMAP_MAX}" "valid")
+
+math(EXPR tmp "(${MAUTH_UIDMAP_MAX} - ${MAUTH_UIDMAP_MIN}) / 2")
+mauth_valid_test("mauth_valid_grgid_NoError3" mauth_valid_grgid "${tmp}" "valid")
+
+math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
+mauth_valid_test("mauth_valid_grgid_tolow" mauth_valid_grgid "${tmp}" "invalid")
+
+math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
+mauth_valid_test("mauth_valid_grgid_tohigh" mauth_valid_grgid "${tmp}" "invalid")

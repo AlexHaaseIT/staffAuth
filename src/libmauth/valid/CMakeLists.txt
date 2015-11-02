@@ -25,6 +25,9 @@
 
 # build object library
 add_library(mauth_valid OBJECT
+	valid_grnam.c
+	valid_grgid.c
+
 	valid_pwnam.c
 	valid_pwuid.c
 )

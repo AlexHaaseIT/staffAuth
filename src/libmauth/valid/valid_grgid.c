@@ -21,29 +21,19 @@
 
 #include <mauth.h>
 
-#include <string.h>
-
 #include "config.h"
 
 
-/** \brief Check if \p name is a valid username to be authenticated by mauth.
+/** \brief Check if \p gid is a valid gid to be authenticated by mauth.
  *
  *
- * \param login User login to be validated.
+ * \param gid Group-ID to be validated.
  *
- * \return Returns true if \p login is a user to be authenticated by mauth or
- *  false if not.
+ * \return Returns true if \p gid is a gid to be authenticated by mauth or false
+ *  if not.
  */
 bool
-mauth_valid_pwnam(const char *login)
+mauth_valid_grgid(gid_t gid)
 {
-	/* Compare login with prefix for users that will be authenticated by mauth.
-	 * If the prefix matches and login is longer than MAUTH_USER_PREFIX, login
-	 * is valid. */
-	size_t len = strlen(MAUTH_USER_PREFIX);
-	if (strncmp(login, MAUTH_USER_PREFIX, len) == 0)
-		if (*(login + len) != '\0')
-			return true;
-
-	return false;
+	return ((gid >= MAUTH_GIDMAP_MIN) && (gid <= MAUTH_GIDMAP_MAX));
 }

@@ -24,11 +24,13 @@
 
 
 #include <stdbool.h>   // bool
-#include <sys/types.h> // uid_t
+#include <sys/types.h> // gid_t, uid_t
 
 
-bool mauth_valid_pwnam(const char *username);
-bool mauth_valid_pwuid(const uid_t uid);
+bool mauth_valid_grnam(const char *name);
+bool mauth_valid_grgid(gid_t gid);
+bool mauth_valid_pwnam(const char *login);
+bool mauth_valid_pwuid(uid_t uid);
 
 int mauth_init();
 void mauth_cleanup();
