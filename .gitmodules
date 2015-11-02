@@ -1,6 +1,9 @@
 [submodule "externals/useLATEX"]
 	path = externals/useLATEX
-	url = https://github.com/kmorel/UseLATEX.git
+	url = git://github.com/kmorel/UseLATEX.git
 [submodule "externals/cmake-codecov"]
 	path = externals/cmake-codecov
-	url = git://github.com/alehaa/cmake-codecov.git
+	url = git://github.com/alehaa/CMake-codecov.git
+[submodule "externals/CMake-easylib"]
+	path = externals/CMake-easylib
+	url = git://github.com/alehaa/CMake-easylib.git
