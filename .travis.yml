@@ -5,7 +5,10 @@ compiler:
 
 addons:
   apt:
+    sources:
+      - kalakris-cmake
     packages:
+      - cmake
       - libc6-dev
 
 script:
