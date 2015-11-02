@@ -28,4 +28,8 @@ add_library(mauth_valid OBJECT
 	valid_pwnam.c
 	valid_pwuid.c
 )
-add_coverage(mauth_valid)
+
+# Add coverage for mauth_valid. Thus we link our test-cases against the shared
+# library of mauth, we have to capture the data of mauth_valid_pic which is
+# creaded by CMake-easylib.
+add_coverage(mauth_valid_pic)
