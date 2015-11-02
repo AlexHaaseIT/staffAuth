@@ -20,97 +20,68 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-macro(mauth_valid_test testname command argument expected_stdout)
-	add_test(NAME ${testname} COMMAND ${command} ${argument})
-	set_tests_properties(${testname}
-		PROPERTIES PASS_REGULAR_EXPRESSION ${expected_stdout}
-	)
+macro (mauth_valid_test_exec testname source)
+	# Add executable for testcase and link against mauth.
+	include_directories(../../src/libmauth/header)
+	add_executable(${testname} ${source})
+	target_link_libraries(${testname} mauth)
+
+	# Set test_command for usage in mauth_valid_test
+	set(test_command ${testname})
+endmacro ()
+
+
+macro(mauth_valid_test testname test_argument will_fail)
+	add_test(NAME ${testname} COMMAND ${test_command} ${test_argument})
+	if (${will_fail})
+		set_tests_properties(${testname} PROPERTIES WILL_FAIL true)
+	endif ()
 endmacro()
 
 
-#
 # valid_pwnam
-#
+mauth_valid_test_exec(mauth_valid_pwnam valid_pwnam.c)
 
-# add executable
-include_directories(../../src/libmauth/header)
-add_executable(mauth_valid_pwnam valid_pwnam.c)
-target_link_libraries(mauth_valid_pwnam mauth)
-
-mauth_valid_test("mauth_valid_pwnam_NoError" mauth_valid_pwnam
-	"${MAUTH_USER_PREFIX}testuser" "valid")
-
-mauth_valid_test("mauth_valid_pwnam_PrefixOnly" mauth_valid_pwnam
-	"${MAUTH_USER_PREFIX}" "invalid")
-
-mauth_valid_test("mauth_valid_pwnam_RandomUser" mauth_valid_pwnam
-	"somerandomuser" "invalid")
+mauth_valid_test("mauth_valid_pwnam_NoError" "${MAUTH_USER_PREFIX}test" false)
+mauth_valid_test("mauth_valid_pwnam_PrefixOnly" "${MAUTH_USER_PREFIX}" true)
+mauth_valid_test("mauth_valid_pwnam_RandomUser" "somerandomuser" true)
 
 
-#
 # valid_pwuid
-#
+mauth_valid_test_exec(mauth_valid_pwuid valid_pwuid.c)
 
-# add executable
-include_directories(../../src/libmauth/header)
-add_executable(mauth_valid_pwuid valid_pwuid.c)
-target_link_libraries(mauth_valid_pwuid mauth)
+mauth_valid_test("mauth_valid_pwuid_NoError1" "${MAUTH_UIDMAP_MIN}" false)
+mauth_valid_test("mauth_valid_pwuid_NoError2" "${MAUTH_UIDMAP_MAX}" false)
 
-mauth_valid_test("mauth_valid_pwuid_NoError1" mauth_valid_pwuid
-	"${MAUTH_UIDMAP_MIN}" "valid")
-
-mauth_valid_test("mauth_valid_pwuid_NoError2" mauth_valid_pwuid
-	"${MAUTH_UIDMAP_MAX}" "valid")
-
-math(EXPR tmp "(${MAUTH_UIDMAP_MAX} - ${MAUTH_UIDMAP_MIN}) / 2")
-mauth_valid_test("mauth_valid_pwuid_NoError3" mauth_valid_pwuid "${tmp}" "valid")
+math(EXPR tmp "(${MAUTH_UIDMAP_MAX} + ${MAUTH_UIDMAP_MIN}) / 2")
+mauth_valid_test("mauth_valid_pwuid_NoError3" "${tmp}" false)
 
 math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
-mauth_valid_test("mauth_valid_pwuid_tolow" mauth_valid_pwuid "${tmp}" "invalid")
+mauth_valid_test("mauth_valid_pwuid_tolow" "${tmp}" true)
 
 math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
-mauth_valid_test("mauth_valid_pwuid_tohigh" mauth_valid_pwuid "${tmp}" "invalid")
+mauth_valid_test("mauth_valid_pwuid_tohigh" "${tmp}" true)
 
 
-#
 # valid_grnam
-#
+mauth_valid_test_exec(mauth_valid_grnam valid_grnam.c)
 
-# add executable
-include_directories(../../src/libmauth/header)
-add_executable(mauth_valid_grnam valid_grnam.c)
-target_link_libraries(mauth_valid_grnam mauth)
-
-mauth_valid_test("mauth_valid_grnam_NoError" mauth_valid_grnam
-	"${MAUTH_GROUP_PREFIX}testgroup" "valid")
-
-mauth_valid_test("mauth_valid_grnam_PrefixOnly" mauth_valid_grnam
-	"${MAUTH_GROUP_PREFIX}" "invalid")
-
-mauth_valid_test("mauth_valid_grnam_RandomGroup" mauth_valid_grnam
-	"somerandomgroup" "invalid")
+mauth_valid_test("mauth_valid_grnam_NoError" "${MAUTH_GROUP_PREFIX}test" false)
+mauth_valid_test("mauth_valid_grnam_PrefixOnly" "${MAUTH_GROUP_PREFIX}" true)
+mauth_valid_test("mauth_valid_grnam_RandomGroup" "somerandomgroup" true)
 
 
-#
 # valid_grgid
-#
+mauth_valid_test_exec(mauth_valid_grgid valid_grgid.c)
 
-# add executable
-include_directories(../../src/libmauth/header)
-add_executable(mauth_valid_grgid valid_grgid.c)
-target_link_libraries(mauth_valid_grgid mauth)
+mauth_valid_test("mauth_valid_grgid_NoError1" "${MAUTH_GIDMAP_MIN}" false)
+mauth_valid_test("mauth_valid_grgid_NoError2" "${MAUTH_GIDMAP_MAX}" false)
 
-mauth_valid_test("mauth_valid_grgid_NoError1" mauth_valid_grgid
-	"${MAUTH_GIDMAP_MIN}" "valid")
+math(EXPR tmp "(${MAUTH_GIDMAP_MAX} + ${MAUTH_GIDMAP_MIN}) / 2")
+mauth_valid_test("mauth_valid_grgid_NoError3" "${tmp}" false)
 
-mauth_valid_test("mauth_valid_grgid_NoError2" mauth_valid_grgid
-	"${MAUTH_UIDMAP_MAX}" "valid")
-
-math(EXPR tmp "(${MAUTH_UIDMAP_MAX} - ${MAUTH_UIDMAP_MIN}) / 2")
-mauth_valid_test("mauth_valid_grgid_NoError3" mauth_valid_grgid "${tmp}" "valid")
-
-math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
-mauth_valid_test("mauth_valid_grgid_tolow" mauth_valid_grgid "${tmp}" "invalid")
+math(EXPR tmp "${MAUTH_GIDMAP_MIN} - 1")
+mauth_valid_test("mauth_valid_grgid_tolow" "${tmp}" true)
 
 math(EXPR tmp "${MAUTH_UIDMAP_MAX} + 1")
-mauth_valid_test("mauth_valid_grgid_tohigh" mauth_valid_grgid "${tmp}" "invalid")
+mauth_valid_test("mauth_valid_grgid_tohigh" "${tmp}" true)
