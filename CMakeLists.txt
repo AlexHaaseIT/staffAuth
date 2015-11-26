@@ -54,9 +54,7 @@ set(CMAKE_MODULE_PATH
 	${CMAKE_MODULE_PATH}
 )
 
-include(CChelper)     # enable CMake-CChelper
 find_package(codecov) # enable code coverage
-find_package(ASan)    # search for address sanitizer
 
 
 #

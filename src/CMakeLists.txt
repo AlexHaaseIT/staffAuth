@@ -20,8 +20,13 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-# setup easylib
-include(easylib)
+include(easylib)   # setup easylib
+include(CChelper)  # enable compiler warnings
+find_package(ASan) # search for address sanitizer
+
+# enable C99
+find_package(C99 REQUIRED)
+set(CMAKE_C_FLAGS "${C99_FLAGS} ${CMAKE_C_FLAGS}")
 
 # recurse into subdirectories
 add_subdirectory(libmauth)
