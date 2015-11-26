@@ -20,10 +20,27 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-include_directories(../libmauth/header)
+# This macro adds a test executable, links it against nss_mauth and sets the
+# variable test_command for use in add_test wrappers.
+macro (add_test_executable testname source)
+	# Add executable for testcase and link against nss_mauth.
+	include_directories(../../src/libnss_mauth)
+	add_executable(${testname} ${source})
+	target_link_libraries(${testname} nss_mauth)
 
-add_library(nss_mauth SHARED
-	passwd.c
-)
+	# Set test_command for usage in mauth_valid_test
+	set(test_command ${testname})
+endmacro ()
 
-target_link_libraries(nss_mauth mauth)
+
+# getpwnam
+add_test_executable(nss_mauth_pwnam getpwnam.c)
+
+add_test_exit("nss_valid_pwnam_RandomUser" "somerandomuser" true)
+
+
+# getpwuid
+add_test_executable(nss_mauth_getpwuid getpwuid.c)
+
+math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
+add_test_exit("nss_valid_pwuid_tolow" "${tmp}" true)

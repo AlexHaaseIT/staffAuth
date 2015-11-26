@@ -20,5 +20,17 @@
 #   2015 Alexander Haase IT Services <support@alexhaase.de>
 #
 
+# This macro adds a testcase to test the exit status of test_command.
+# test_command must be set before calling this macro. For usual this variable
+# will be set ba another macro to build the testcase
+macro(add_test_exit testname test_argument will_fail)
+	add_test(NAME ${testname} COMMAND ${test_command} ${test_argument})
+	if (${will_fail})
+		set_tests_properties(${testname} PROPERTIES WILL_FAIL true)
+	endif ()
+endmacro()
+
+
 # recurse into subdirectories
 add_subdirectory(mauth)
+add_subdirectory(nss_mauth)

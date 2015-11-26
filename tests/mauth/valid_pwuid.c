@@ -24,6 +24,7 @@
 
 #include <mauth.h>
 
+
 int
 main(int argc, char **argv)
 {

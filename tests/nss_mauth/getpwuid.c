@@ -22,20 +22,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <mauth.h>
+#include <nss_mauth.h>
 
 
 int
 main(int argc, char **argv)
 {
 	if (argc < 2) {
-		fprintf(stderr, "usage: %s gid\n", argv[0]);
+		fprintf(stderr, "usage: %s uid\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
-	bool ret = mauth_valid_grgid((gid_t) atoi(argv[1]));
+	struct passwd pwd_buf;
+	char buffer[512];
+	int pwd_errno = 0;
+	enum nss_status ret = _nss_mauth_getpwuid_r((uid_t) atoi(argv[1]), &pwd_buf,
+	                                            buffer, 512, &pwd_errno);
 
-	printf("%s\n", ret ? "valid" : "invalid");
+	if (ret == NSS_STATUS_NOTFOUND) {
+		printf("%s was not found\n", argv[1]);
+		return EXIT_FAILURE;
+	}
 
-	return ret ? EXIT_SUCCESS : EXIT_FAILURE;
+	printf("name:\t%s\nuid:\t%u\ngid:\t%u\ngecos:\t%s\ndir:\t%s\nshell:\t%s\n",
+	       pwd_buf.pw_name, pwd_buf.pw_uid, pwd_buf.pw_gid, pwd_buf.pw_gecos,
+	       pwd_buf.pw_dir, pwd_buf.pw_shell);
+	return EXIT_SUCCESS;
 }

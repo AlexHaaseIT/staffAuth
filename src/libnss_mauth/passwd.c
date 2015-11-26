@@ -19,11 +19,13 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
+#include "nss_mauth.h"
+
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
-#include <nss.h>
-#include <pwd.h>
+#include <mauth.h>
 
 
 /** \brief Get user by \p name.
@@ -32,21 +34,10 @@ enum nss_status
 _nss_mauth_getpwnam_r(const char *name, struct passwd *pwd, char *buffer,
                       size_t bufsize, int *errnop)
 {
-	// check if this is a request for our debug account
-	if (strcmp(name, "adm_test") != 0)
+	if (!mauth_valid_pwnam(name))
 		return NSS_STATUS_NOTFOUND;
 
-	// set pwd to zero
-	struct passwd pwd_zero = {0};
-	*pwd = pwd_zero;
-
-	printf("getpwnam_r for %s\n", name);
-	printf("buffer size: %lu\n", bufsize);
-
-	strcpy(buffer, name);
-	pwd->pw_name = buffer;
-
-	return NSS_STATUS_SUCCESS;
+	return NSS_STATUS_NOTFOUND;
 }
 
 
@@ -56,7 +47,8 @@ enum nss_status
 _nss_mauth_getpwuid_r(uid_t uid, struct passwd *pwd, char *buffer,
                       size_t bufsize, int *errnop)
 {
-	printf("getpwuid_r for %u\n", uid);
+	if (!mauth_valid_pwuid(uid))
+		return NSS_STATUS_NOTFOUND;
 
 	return NSS_STATUS_NOTFOUND;
 }

@@ -19,23 +19,13 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <mauth.h>
+#include <nss.h>
+#include <pwd.h>
 
 
-int
-main(int argc, char **argv)
-{
-	if (argc < 2) {
-		fprintf(stderr, "usage: %s gid\n", argv[0]);
-		exit(EXIT_FAILURE);
-	}
-
-	bool ret = mauth_valid_grgid((gid_t) atoi(argv[1]));
-
-	printf("%s\n", ret ? "valid" : "invalid");
-
-	return ret ? EXIT_SUCCESS : EXIT_FAILURE;
-}
+enum nss_status _nss_mauth_getpwnam_r(const char *name, struct passwd *pwd,
+                                      char *buffer, size_t bufsize,
+                                      int *errnop);
+enum nss_status _nss_mauth_getpwuid_r(uid_t uid, struct passwd *pwd,
+                                      char *buffer, size_t bufsize,
+                                      int *errnop);
