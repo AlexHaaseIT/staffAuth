@@ -19,17 +19,20 @@
  *  2015 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-/* Disable clang-format for this file, because it has entries like @...@ which
- * will confuse clang-format. */
-// clang-format off
+#include <mauth.h>
+
+#include <stdio.h>
 
 
-#define MAUTH_UIDMAP_MIN @MAUTH_UIDMAP_MIN@
-#define MAUTH_UIDMAP_MAX @MAUTH_UIDMAP_MAX@
-#define MAUTH_USER_PREFIX "@MAUTH_USER_PREFIX@"
+bool
+mauth_lookup(const char *key)
+{
+	char server[512];
+	ssize_t ret = mauth_find_server(server, 512);
 
-#define MAUTH_GIDMAP_MIN @MAUTH_GIDMAP_MIN@
-#define MAUTH_GIDMAP_MAX @MAUTH_GIDMAP_MAX@
-#define MAUTH_GROUP_PREFIX "@MAUTH_GROUP_PREFIX@"
+	printf("mauth_lookup ret = %li\n", ret);
+	if (ret > 0)
+		printf("server: %s\n", server);
 
-#define MAUTH_HOSTNAME "@MAUTH_HOSTNAME@"
+	return false;
+}

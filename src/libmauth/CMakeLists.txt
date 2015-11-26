@@ -29,6 +29,8 @@ set(MAUTH_GIDMAP_MIN "65537" CACHE STRING "Minimum GID for mauth groups.")
 set(MAUTH_GIDMAP_MAX "99999" CACHE STRING "Maximum GID for mauth groups.")
 set(MAUTH_GROUP_PREFIX "adm_" CACHE STRING "Prefix for mauth groups.")
 
+set(MAUTH_HOSTNAME "mauth" CACHE STRING "Mauth server to search for in domain.")
+
 # configure config.h
 configure_file(config.h.in config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -39,6 +41,7 @@ include_directories(header)
 
 
 # recurse into subdirectories
+add_subdirectory(api)
 add_subdirectory(valid)
 
 
@@ -48,6 +51,7 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 # build library
 add_library(mauth SHARED
+	$<TARGET_OBJECTS:mauth_api>
 	$<TARGET_OBJECTS:mauth_valid>
 
 	init.c

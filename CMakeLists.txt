@@ -46,14 +46,17 @@ endif (POLICY CMP0042)
 # cmake configuration
 #
 set(CMAKE_MODULE_PATH
+	"${CMAKE_SOURCE_DIR}/externals/CMake-CChelper/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/cmake-codecov/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-easylib/cmake"
+	"${CMAKE_SOURCE_DIR}/externals/CMake-sanitizers/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/UseLATEX"
 	${CMAKE_MODULE_PATH}
 )
 
-# enable code coverage
-find_package(codecov)
+include(CChelper)     # enable CMake-CChelper
+find_package(codecov) # enable code coverage
+find_package(ASan)    # search for address sanitizer
 
 
 #

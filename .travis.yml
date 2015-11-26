@@ -13,7 +13,7 @@ addons:
 
 script:
   - mkdir build && cd build
-  - cmake .. -DENABLE_COVERAGE=On -DENABLE_TESTS=On && make && make test
+  - cmake .. -DENABLE_COVERAGE=On -DENABLE_TESTS=On -DCMAKE_BUILD_TYPE=ASAN && make && make test
 
 after_success:
   - make gcov

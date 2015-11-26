@@ -24,6 +24,7 @@
 
 
 #include <stdbool.h>   // bool
+#include <stddef.h>    // size_t
 #include <sys/types.h> // gid_t, uid_t
 
 
@@ -31,6 +32,8 @@ bool mauth_valid_grnam(const char *name);
 bool mauth_valid_grgid(gid_t gid);
 bool mauth_valid_pwnam(const char *login);
 bool mauth_valid_pwuid(uid_t uid);
+
+size_t mauth_find_server(char *buffer, size_t size);
 
 int mauth_init();
 void mauth_cleanup();

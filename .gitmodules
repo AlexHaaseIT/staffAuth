@@ -7,3 +7,9 @@
 [submodule "externals/CMake-easylib"]
 	path = externals/CMake-easylib
 	url = git://github.com/alehaa/CMake-easylib.git
+[submodule "externals/CMake-CChelper"]
+	path = externals/CMake-CChelper
+	url = git://github.com/alehaa/CMake-CChelper.git
+[submodule "externals/CMake-sanitizers"]
+	path = externals/CMake-sanitizers
+	url = git://github.com/RWTH-ELP/CMake-sanitizers.git
