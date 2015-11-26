@@ -25,5 +25,6 @@ include_directories(../libmauth/header)
 add_library(nss_mauth SHARED
 	passwd.c
 )
+add_coverage(nss_mauth)
 
 target_link_libraries(nss_mauth mauth)
