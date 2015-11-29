@@ -21,16 +21,14 @@
 
 #include <mauth.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdbool.h> // bool
+#include <stdio.h>   // snprintf
+#include <string.h>  // strchr
 
-#include <netdb.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <unistd.h>
+#include <netdb.h>  // getaddrinfo
+#include <unistd.h> // gethostname
 
-#include "config.h"
+#include "config.h" // MAUTH_HOSTNAME
 
 
 /** \brief Search for mauth server in local domain and copy address into \p
@@ -67,8 +65,9 @@ mauth_find_server(char *buffer, size_t size)
 		return 0;
 
 	/* Iterate through FQDNs of host. */
-	bool found = false;
-	for (struct addrinfo *p = gai_addr; p != NULL && !found; p = p->ai_next) {
+	int len = 0;
+	for (struct addrinfo *p = gai_addr; p != NULL && len == 0; p = p->ai_next) {
+		/* Empty FQDNs could be skipped. */
 		if (p->ai_canonname == NULL)
 			continue;
 
@@ -76,29 +75,30 @@ mauth_find_server(char *buffer, size_t size)
 		 * host is not used, the part before the first dot in domain can be
 		 * ignored (while instead of do while). */
 		char *domain = p->ai_canonname;
-		while ((domain = strchr(domain, '.')) != NULL && !found) {
+		while ((domain = strchr(domain, '.')) != NULL && len == 0) {
 			/* strchr will return the position of '.', but we need the first
 			 * character of the domain without the leading dot. */
 			domain++;
 
 			/* Build mauth FQDN with MAUTH_HOSTNAME and domain concatenated and
 			 * separated by a dot. */
-			int len = snprintf(buffer, size, "%s.%s", MAUTH_HOSTNAME, domain);
+			len = snprintf(buffer, size, "%s.%s", MAUTH_HOSTNAME, domain);
 			if (len < 0 || len >= size)
 				break;
 
 			/* Lookup domain stored in buffer. If domain exists, we have found
 			 * our mauth server. */
 			struct addrinfo *dom_lookup;
-			if (getaddrinfo(buffer, NULL, NULL, &dom_lookup) == 0)
-				found = true;
+			if (!getaddrinfo(buffer, NULL, NULL, &dom_lookup) == 0)
+				len = 0;
 			freeaddrinfo(dom_lookup);
 		}
 	}
 	freeaddrinfo(gai_addr);
 
-	if (found)
-		return strlen(buffer);
+	/* If len is in error range, return 0, otherwise len as size_t. */
+	if (len < 0 || len >= size)
+		return 0;
 
-	return 0;
+	return (size_t) len;
 }
