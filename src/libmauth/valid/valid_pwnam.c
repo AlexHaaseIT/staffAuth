@@ -21,9 +21,10 @@
 
 #include <mauth.h>
 
-#include <string.h>
+#include <assert.h> // assert
+#include <string.h> // strlen, strncmp
 
-#include "config.h"
+#include "config.h" // MAUTH_USER_PREFIX
 
 
 /** \brief Check if \p name is a valid username to be authenticated by mauth.
@@ -37,6 +38,9 @@
 bool
 mauth_valid_pwnam(const char *login)
 {
+	/* login must not be NULL. */
+	assert(login);
+
 	/* Compare login with prefix for users that will be authenticated by mauth.
 	 * If the prefix matches and login is longer than MAUTH_USER_PREFIX, login
 	 * is valid. */

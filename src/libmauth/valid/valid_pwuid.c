@@ -21,7 +21,7 @@
 
 #include <mauth.h>
 
-#include "config.h"
+#include "config.h" // MAUTH_UIDMAP_MIN, MAUTH_UIDMAP_MAX
 
 
 /** \brief Check if \p uid is a valid uid to be authenticated by mauth.

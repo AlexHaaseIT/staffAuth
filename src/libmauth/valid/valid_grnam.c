@@ -21,9 +21,10 @@
 
 #include <mauth.h>
 
-#include <string.h>
+#include <assert.h> // assert
+#include <string.h> // strlen, strncmp
 
-#include "config.h"
+#include "config.h" // MAUTH_GROUP_PREFIX
 
 
 /** \brief Check if \p name is a valid group to be authenticated by mauth.
@@ -37,6 +38,9 @@
 bool
 mauth_valid_grnam(const char *name)
 {
+	/* name must not be NULL. */
+	assert(name);
+
 	/* Compare name with prefix for groups that will be authenticated by mauth.
 	 * If the prefix matches and name is longer than MAUTH_USER_PREFIX, name is
 	 * valid. */

@@ -21,6 +21,7 @@
 
 #include <mauth.h>
 
+#include <assert.h> // assert
 #include <stdio.h>
 
 
@@ -34,6 +35,9 @@
 char *
 mauth_lookup_key(const char *key)
 {
+	/* key must not be NULL. */
+	assert(key);
+
 	/* Search for local mauth server in hosts FQDN domains. If no server was
 	 * found return NULL. */
 	char server[SERVER_BUFFER_LENGTH];

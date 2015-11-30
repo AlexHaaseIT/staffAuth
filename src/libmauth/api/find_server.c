@@ -21,6 +21,7 @@
 
 #include <mauth.h>
 
+#include <assert.h>  // assert
 #include <stdbool.h> // bool
 #include <stdio.h>   // snprintf
 #include <string.h>  // strchr
@@ -51,6 +52,10 @@
 size_t
 mauth_find_server(char *buffer, size_t size)
 {
+	/* buffer must not be NULL and size not 0. */
+	assert(buffer);
+	assert(size);
+
 	/* This solution was adapted from http://stackoverflow.com/a/505546.
 	 * First we will get the hostname and then the FQDNs associated with this
 	 * hostname. With the FQDNs we can search for the mauth server in the

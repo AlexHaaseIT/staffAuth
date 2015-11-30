@@ -21,7 +21,7 @@
 
 #include <mauth.h>
 
-#include "config.h"
+#include "config.h" // MAUTH_GIDMAP_MIN, MAUTH_GIDMAP_MAX
 
 
 /** \brief Check if \p gid is a valid gid to be authenticated by mauth.
