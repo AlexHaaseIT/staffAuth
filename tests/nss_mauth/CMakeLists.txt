@@ -40,7 +40,7 @@ add_test_exit("nss_valid_pwnam_RandomUser" "somerandomuser" true)
 
 
 # getpwuid
-add_test_executable(nss_mauth_getpwuid getpwuid.c)
+add_test_executable(nss_mauth_pwuid getpwuid.c)
 
 math(EXPR tmp "${MAUTH_UIDMAP_MIN} - 1")
 add_test_exit("nss_valid_pwuid_tolow" "${tmp}" true)
