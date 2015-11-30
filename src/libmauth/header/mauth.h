@@ -23,6 +23,7 @@
 #define LIBMAUTH_H
 
 
+#include <stdarg.h>    // variadic arguments
 #include <stdbool.h>   // bool
 #include <stddef.h>    // size_t
 #include <sys/types.h> // gid_t, uid_t
@@ -33,6 +34,7 @@ bool mauth_valid_grgid(gid_t gid);
 bool mauth_valid_pwnam(const char *login);
 bool mauth_valid_pwuid(uid_t uid);
 
+char *mauth_gen_string(const char *format, ...);
 size_t mauth_find_server(char *buffer, size_t size);
 
 int mauth_init();

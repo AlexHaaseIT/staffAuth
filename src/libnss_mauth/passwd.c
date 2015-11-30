@@ -21,11 +21,10 @@
 
 #include "nss_mauth.h"
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h>  // printf
+#include <stdlib.h> // free
 
-#include <mauth.h>
+#include <mauth.h> // mauth functions
 
 
 /** \brief Get user by \p name.
@@ -34,8 +33,17 @@ enum nss_status
 _nss_mauth_getpwnam_r(const char *name, struct passwd *pwd, char *buffer,
                       size_t bufsize, int *errnop)
 {
+	/* Check if name is a valid user authenticated by mauth. */
 	if (!mauth_valid_pwnam(name))
 		return NSS_STATUS_NOTFOUND;
+
+	/* Generate key for mauth server request. */
+	char *key = mauth_gen_string("user/%s/passwd", name);
+	printf("key: %s\n", key);
+
+
+	mauth_lookup(key);
+	free(key);
 
 	return NSS_STATUS_NOTFOUND;
 }

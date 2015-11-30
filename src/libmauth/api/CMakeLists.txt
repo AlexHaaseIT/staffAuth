@@ -26,6 +26,7 @@
 # build object library
 add_library(mauth_api OBJECT
 	find_server.c
+	gen_string.c
 	lookup.c
 )
 
