@@ -27,7 +27,7 @@
 add_library(mauth_api OBJECT
 	find_server.c
 	gen_string.c
-	lookup.c
+	lookup_key.c
 )
 
 # Add coverage for mauth_api. Thus we link our test-cases against the shared

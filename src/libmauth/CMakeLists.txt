@@ -21,11 +21,11 @@
 #
 
 # default values for config.h
-set(MAUTH_UIDMAP_MIN "65537" CACHE STRING "Minimum UID for mauth users.")
+set(MAUTH_UIDMAP_MIN "65536" CACHE STRING "Minimum UID for mauth users.")
 set(MAUTH_UIDMAP_MAX "99999" CACHE STRING "Maximum UID for mauth users.")
 set(MAUTH_USER_PREFIX "adm_" CACHE STRING "Prefix for mauth users.")
 
-set(MAUTH_GIDMAP_MIN "65537" CACHE STRING "Minimum GID for mauth groups.")
+set(MAUTH_GIDMAP_MIN "65536" CACHE STRING "Minimum GID for mauth groups.")
 set(MAUTH_GIDMAP_MAX "99999" CACHE STRING "Maximum GID for mauth groups.")
 set(MAUTH_GROUP_PREFIX "adm_" CACHE STRING "Prefix for mauth groups.")
 

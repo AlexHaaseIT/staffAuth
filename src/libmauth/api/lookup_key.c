@@ -24,15 +24,23 @@
 #include <stdio.h>
 
 
-bool
-mauth_lookup(const char *key)
-{
-	char server[512];
-	ssize_t ret = mauth_find_server(server, 512);
+/* The maximum length of a domain is limited to 255 bytes as defined in RFC 1034
+ * section 3.1. */
+#define SERVER_BUFFER_LENGTH 255
 
-	printf("mauth_lookup ret = %li\n", ret);
-	if (ret > 0)
-		printf("server: %s\n", server);
+
+/** \brief
+ */
+char *
+mauth_lookup_key(const char *key)
+{
+	/* Search for local mauth server in hosts FQDN domains. If no server was
+	 * found return NULL. */
+	char server[SERVER_BUFFER_LENGTH];
+	if (mauth_find_server(server, SERVER_BUFFER_LENGTH) == 0)
+		return NULL;
+
+	printf("server: %s\n", server);
 
 	return false;
 }

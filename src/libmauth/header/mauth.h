@@ -34,8 +34,9 @@ bool mauth_valid_grgid(gid_t gid);
 bool mauth_valid_pwnam(const char *login);
 bool mauth_valid_pwuid(uid_t uid);
 
-char *mauth_gen_string(const char *format, ...);
 size_t mauth_find_server(char *buffer, size_t size);
+char *mauth_gen_string(const char *format, ...);
+char *mauth_lookup_key(const char *key);
 
 int mauth_init();
 void mauth_cleanup();

@@ -42,7 +42,7 @@ _nss_mauth_getpwnam_r(const char *name, struct passwd *pwd, char *buffer,
 	printf("key: %s\n", key);
 
 
-	mauth_lookup(key);
+	mauth_lookup_key(key);
 	free(key);
 
 	return NSS_STATUS_NOTFOUND;
@@ -55,8 +55,17 @@ enum nss_status
 _nss_mauth_getpwuid_r(uid_t uid, struct passwd *pwd, char *buffer,
                       size_t bufsize, int *errnop)
 {
+	/* Check if name is a valid user authenticated by mauth. */
 	if (!mauth_valid_pwuid(uid))
 		return NSS_STATUS_NOTFOUND;
+
+	/* Generate key for mauth server request. */
+	char *key = mauth_gen_string("user/id/%lu/passwd", uid);
+	printf("key: %s\n", key);
+
+
+	mauth_lookup_key(key);
+	free(key);
 
 	return NSS_STATUS_NOTFOUND;
 }
