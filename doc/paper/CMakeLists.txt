@@ -33,5 +33,6 @@ add_latex_document(paper.tex
 		abstract.tex
 		concept.tex
 		problem.tex
+		requirements.tex
 	DEFAULT_PDF
 )

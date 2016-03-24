@@ -1,0 +1,44 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\section{Requirements}
+
+To solve these issues, a centralized database backend should be used, so every
+employee is able to manage his own account with low overhead. \\
+
+The following requirements should be met:
+
+\begin{itemize}
+	\item Data initegrity and authenticity must be ensured. Otherwise one could
+		simply give himself sudo rights. Even third party could get access via
+		MITM\footnote{\textbf{M}an \textbf{I}n \textbf{T}he \textbf{M}iddle}
+		attacks, if the data could be manipulated.
+	\item Not every server should be configured by hand. This is time consuming
+		and annoying. The system should find its configuration automaticaly, but
+		it must be authenticated.
+	\item Only one account should be used per employee.
+	\item Several authentication servers should be able to be joined. In some
+		special cases you have e.g. one company which maintains the network and
+		another for some of the servers. The last one may need e.g. an SSH
+		tunnel or access to nagios, etc.
+\end{itemize}

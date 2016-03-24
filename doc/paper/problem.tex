@@ -17,29 +17,41 @@
 %
 %
 % Copyright (C)
-%   2015 Alexander Haase IT Services <support@alexhaase.de>
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 %
 
 
 \section{Problem}
 
-When maintaining several servers and/or clients, you can choose between some
-options to restrict the access for maintenance functionality (like sudo in
-Linux / Unix) to authorized staff only, but they have some issues:
+When maintaining several servers and/or clients on the customers side, you can
+choose between some options to restrict the access for maintenance functionality
+(like sudo in Linux / Unix) to authorized staff only, but they have some issues:
 
 \begin{enumerate}
-	\item There is a seperate maintenance account on the target maching with a
-		fixed password.
+	\item There is a separate maintenance account on the target machine with a
+		fixed password for all machines accross all customers.
+		\begin{itemize}
+			\item If your customer or any third party gets the password, one
+				would have administration access not only to this machine, but
+				all machines of all customers. Regardless to say that this is a
+				huge hole in your security concept.
+		\end{itemize}
+
+	\item There is a separate maintenance account on the target machine with a
+		fixed password which is not shared between customers or machines.
 		\begin{itemize}
 			\item If your customer gets the password, he has full access on the
 				target machine until you change the password. After you have
 				changed it, you have to inform all your employees about the new
 				password and if you have used the same password all over the
-				network, this is very time consuming.
+				customers' network, this is very time consuming.
 			\item If an employee left your company, you have to change all
 				passwords he could know. This is very time consuming, so you'll
-				never do that until you really have to, so mostly he'll have
-				access to this machine until the livetime of it.
+				never want to do that until you really have to, so mostly he'll
+				have access to this machine until the rest of the lifetime of
+				it.
+			\item You have to maintain a password-database for all the
+				credentials which is a huge overhead.
 		\end{itemize}
 
 	\item Every employee has its own account on the target machine. The
@@ -48,15 +60,12 @@ Linux / Unix) to authorized staff only, but they have some issues:
 		\begin{itemize}
 			\item If you get a new employee or one left, you have to add /
 				delete the accounts on all machines where the employee needs
-				access. This is \textit{really} time consuming.
+				access. This is \textit{really} time consuming. In most cases
+				this will end up in a single account per machine, which has
+				security issues described above.
 			\item It is very time consuming to change the password for a single
 				user. As more machines you have to maintain, as more time you'll
-				need.
-			\item If you use a solution like LDAP or any other database for
-				the users credentials, every machine needs a connection to your
-				database with its own credentials and you have to open your
-				database connection for the world wide web, which might be a
-				security issue.
+				need to change your password on any machine.
 		\end{itemize}
 \end{enumerate}
 
