@@ -1,0 +1,38 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\section{Idea}
+
+To solve these issues, a centralized database backend should be used, so every
+employee is able to manage his own account with low overhead. Usually you'll
+already have a central storage for your employees credentials to authenticate
+them at your companys machines, so why don't use them? These data should be
+accessed via a well defined API from outside, so you're free to use a backend of
+your choice. \\
+
+In general no passwords should be used at you customers' side. For login into
+machines SSH-keys should be used, thus this is an asymmetric system were the
+public key may be public accessible (which in case will hapen via API). For
+privileged access (sudo) onetime passwords should be used. Thus algorithms like
+TOTP are symmetric, not the client but the credential server should check the
+onetime password via API.

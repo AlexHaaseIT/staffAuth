@@ -32,6 +32,7 @@ add_latex_document(paper.tex
 	INPUTS
 		abstract.tex
 		concept.tex
+		idea.tex
 		problem.tex
 		requirements.tex
 	DEFAULT_PDF
