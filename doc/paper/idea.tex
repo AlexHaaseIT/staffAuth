@@ -35,4 +35,73 @@ machines SSH-keys should be used, thus this is an asymmetric system were the
 public key may be public accessible (which in case will hapen via API). For
 privileged access (sudo) onetime passwords should be used. Thus algorithms like
 TOTP are symmetric, not the client but the credential server should check the
-onetime password via API.
+onetime password via API. \\
+
+To avoid lots of configuration, a proxy server in the customers' network will be
+used, which can be found via DNS. The server should be authenticated to avoid
+security issues with DNS redirection attacks.
+
+
+\subsection{Basic structure}
+
+\begin{itemize}
+	\item DNS will be used to find a local authentication proxy server.
+	\item The API will be accessed over HTTPS, so authentication can be
+		ensured with TLS certificates.
+	\item The proxy will pass requests to the API server to be used for the
+		calling user. These proxy may authenticate himself with a TLS client
+		certificate or API token to the API server, if required.
+\end{itemize}
+
+\begin{figure}[H]
+	\caption{Basic concept}
+
+	\centering
+
+	\tikzstyle{user} = [draw, ellipse, fill=red!20, node distance=5cm,
+		minimum height=2em]
+	\tikzstyle{server} = [rectangle, draw, fill=blue!20, text width=5em,
+		text centered, rounded corners, minimum height=2em]
+
+	\tikzstyle{request} = [->, thick]
+	\tikzstyle{reply} = [->, thick, dashed]
+	\tikzstyle{label} = [font=\tiny, text width=2cm]
+
+
+	\begin{tikzpicture}[node distance = 4cm, auto]
+		\node [server] (api) at (0,0) {API};
+		\node [server] (dns) at (5,2) {DNS};
+		\node [server] (proxy) at (5,-2) {Proxy};
+		\node [server] (server) at (10,0) {Server};
+		\node [user] (user) at (15,0) {User};
+
+		\draw[request] (user.175) to [out=150,in=30] (server.5);
+		\node [label, align=center] (cap1) at (12.5, 0.75) {(1) login request};
+
+		\draw[request] (server.155) to [out=130,in=350] (dns.350);
+		\node [label, align=right] (cap2) at (8.5, 1.75)
+			{(2) DNS request to find proxy};
+
+		\draw[reply] (dns.335) to [out=300,in=170] (server.170);
+		\node [label, align=left] (cap3) at (6.5, 0.4) {(3) DNS reply};
+
+		\draw[request] (server.190) to [out=190,in=40] (proxy.25);
+		\node [label, align=left] (cap4) at (6.5, -0.6)
+			{(4) User credentials request};
+
+		\draw[request] (proxy.155) to [out=130,in=350] (api.350);
+		\node [label, align=left, text width=2.3cm] (cap5) at (3.75, -0.2)
+			{(5) User credentials request to API};
+
+		\draw[reply] (api.335) to [out=300,in=170] (proxy.170);
+		\node [label, align=left, text width=1.4cm] (cap6) at (2, -1.75)
+			{(6) User credentials};
+
+		\draw[reply] (proxy.10) to [out=10,in=210] (server.210);
+		\node [label, align=left, text width=1.4cm] (cap6) at (8, -1.75)
+			{(6) User credentials};
+
+		\draw[reply] (server.355) to [out=330,in=210] (user.185);
+		\node [label, align=center] (cap1) at (12.5, -0.75) {(8) login granted};
+	\end{tikzpicture}
+\end{figure}
