@@ -1,0 +1,141 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\colorlet{punct}{red!60!black}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+\lstdefinelanguage{none}{
+	basicstyle=\small\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	backgroundcolor=\color{box_bg}
+}
+
+\lstdefinelanguage{http_request}{
+	basicstyle=\small\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	backgroundcolor=\color{box_bg},
+	literate=
+		{GET}{{{\color{delim}{GET}}}}{3}
+		{:login}{{{\color{numb}{:login}}}}{5}
+}
+
+\lstdefinelanguage{json}{
+	basicstyle=\small\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	backgroundcolor=\color{box_bg},
+	literate=
+		*{0}{{{\color{numb}0}}}{1}
+		{1}{{{\color{numb}1}}}{1}
+		{2}{{{\color{numb}2}}}{1}
+		{3}{{{\color{numb}3}}}{1}
+		{4}{{{\color{numb}4}}}{1}
+		{5}{{{\color{numb}5}}}{1}
+		{6}{{{\color{numb}6}}}{1}
+		{7}{{{\color{numb}7}}}{1}
+		{8}{{{\color{numb}8}}}{1}
+		{9}{{{\color{numb}9}}}{1}
+		{:}{{{\color{punct}{:}}}}{1}
+		{,}{{{\color{punct}{,}}}}{1}
+		{\{}{{{\color{delim}{\{}}}}{1}
+		{\}}{{{\color{delim}{\}}}}}{1}
+		{[}{{{\color{delim}{[}}}}{1}
+		{]}{{{\color{delim}{]}}}}{1}
+}
+
+
+
+
+\section{API}
+
+To access the employees credentials and other data, a well defined API must be
+used.
+
+\subsection{HTTPS}
+
+To ensure data authenticity, all HTTP traffic should be secured with an
+up-to-date version of TLS (HTTPS). As for any other HTTPS server, the servers'
+certificate must be signed by a CA\footnote{\textbf{C}ertificate
+\textbf{A}uthority} known by the client servers and be checked against this CA.
+
+
+\subsection{Schema}
+
+All data is sent and received as JSON. \\
+
+For GET requests, all parameters are embeded as a segment in the endpoint. An
+example API curl request for the path \verb+users/:username+ with parameter
+\verb+username+ set to \underline{max} and API server \verb+api.example.com+
+may look like this:
+
+\begin{lstlisting}[language=none, numbers=none]
+:~$ curl https://api.example.com/users/max
+{
+  "login": "max",
+  "id": 1,
+  ...
+\end{lstlisting}
+
+For POST requests, parameters not included in the path should be encoded as JSON
+with a Content-Type of \verb+application/json+. An example API curl request for
+the path \verb+users/:username/verify/otp+ with parameter \verb+username+ and
+\verb+token+ may look like this:
+
+\begin{lstlisting}[language=none, numbers=none]
+:~$ curl -d '{"token":123456}' \
+        https://api.example.com/users/max/verify/otp
+{
+  "verified": true
+}
+\end{lstlisting}
+
+
+\subsection{Endpoints}
+
+\newcommand{\includeApiDefinition}[1]{
+	\begin{minipage}{\textwidth}
+	\input{api/#1}
+	\end{minipage}
+}
+
+
+\includeApiDefinition{login_credentials}
+\includeApiDefinition{ssh_keys}
+\includeApiDefinition{ssh_keys_notify}
+\includeApiDefinition{verify_otp}
+
+
+\subsection{Technical notes}
+
+The API server should be secured against brute-force and denial-of-service
+attacks. The following points are recommended:
+
+\begin{itemize}
+	\item Rate-limit requests
+	\item Block unauthorized IPs and keep blacklists up-to-date.
+	\item Only grant access to authorized clients e.g. by client TLS
+		certificates or API tokens.
+\end{itemize}

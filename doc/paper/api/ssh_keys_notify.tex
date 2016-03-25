@@ -1,0 +1,45 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\subsubsection{Notify about used SSH-key}
+
+\begin{lstlisting}[language=http_request]
+POST /users/:login/keys/notify
+\end{lstlisting}
+
+{\tiny \underline{Additional parameters:}}
+\begin{lstlisting}[language=json, numbers=none]
+{
+  "id": 1,
+  "login_time": 1458875400,  # UNIX timestamp
+  "ip": "123.123.123.123"
+}
+\end{lstlisting}
+
+
+{\tiny \underline{Response:}}
+\begin{lstlisting}[language=json, numbers=none]
+{
+  "notified": "ok"
+}
+\end{lstlisting}
