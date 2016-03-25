@@ -37,6 +37,7 @@ add_latex_document(paper.tex
 		api/verify_otp.tex
 
 		abstract.tex
+		credentials.tex
 		concept.tex
 		dns_config.tex
 		idea.tex
