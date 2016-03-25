@@ -38,6 +38,7 @@ add_latex_document(paper.tex
 
 		abstract.tex
 		concept.tex
+		dns_config.tex
 		idea.tex
 		problem.tex
 		requirements.tex

@@ -33,7 +33,8 @@ your choice. \\
 In general no passwords should be used at you customers' side. For login into
 machines SSH-keys should be used, thus this is an asymmetric system. The
 SSH-keys should be queried via API. For privileged access (sudo) onetime
-passwords should be used. Thus algorithms like TOTP\footnote{see
+passwords should be used. Thus algorithms like TOTP\footnote{Time-Based One-Time
+Password Algorithm is defined in
 \href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are symmetric, not the
 client but the credential server should check the onetime password via API. \\
 

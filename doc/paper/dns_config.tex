@@ -1,0 +1,44 @@
+% This file is part of staffAuth.
+%
+% staffAuth is a free document: you can redistribute it and/or modify it under
+% the terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any later
+% version.
+%
+% This document is distributed in the hope that it will be useful,but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along with
+% this document. If not, see
+%
+%   http://www.gnu.org/licenses/
+%
+%
+% Copyright (C)
+%   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
+%
+
+
+\section{Configuration via DNS}
+
+\textit{Read this section \underline{carefuly} before implementing this in your
+network. It may cause a huge vulnerability if used in wrong environments!} \\
+
+To decrease maintenance overhead, the API proxy may be found via predefined DNS
+records. To find the local API proxy, an NAPTR\footnote{NAPTR resource record is
+defined in \href{https://tools.ietf.org/html/rfc2915}{RFC 2915}} resource record
+named \verb+staffauth+ placed in the search-domain of the client may be used to
+deploy the domain name of the API proxy: \\
+
+\begin{lstlisting}[language=none, numbers=none]
+staffauth.example.com.  IN  NAPTR  100  10  "A"  ""  ""  saprox.example.com.
+\end{lstlisting}
+
+~\\
+
+Unlike HTTPS plain DNS \underline{has no builtin authenticity checks}.
+Use this configuration method only, if you can ensure that no third party is
+able to manipulate your network or if your DNS records are secured by
+DNSSEC and your resolver checks these records carefuly.
