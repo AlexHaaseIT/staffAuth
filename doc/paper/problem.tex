@@ -23,20 +23,11 @@
 
 \section{Problem}
 
-When maintaining several servers and/or clients on the customers side, you can
-choose between some options to restrict the access for maintenance functionality
-(like sudo in Linux / Unix) to authorized staff only, but they have some issues:
+When maintaining several machines on the customers side, you can choose between
+some options to restrict the privileged access (like sudo) to authorized staff
+only, but they have some issues:
 
 \begin{enumerate}
-	\item There is a separate maintenance account on the target machine with a
-		fixed password for all machines accross all customers.
-		\begin{itemize}
-			\item If your customer or any third party gets the password, one
-				would have administration access not only to this machine, but
-				all machines of all customers. Regardless to say that this is a
-				huge hole in your security concept.
-		\end{itemize}
-
 	\item There is a separate maintenance account on the target machine with a
 		fixed password which is not shared between customers or machines.
 		\begin{itemize}
@@ -51,15 +42,22 @@ choose between some options to restrict the access for maintenance functionality
 				have access to this machine until the rest of the lifetime of
 				it.
 			\item You have to maintain a password-database for all the
-				credentials which is a huge overhead.
+				credentials and access privileges for your employees, which is a
+				huge overhead.
 		\end{itemize}
+
+	\item There is a separate maintenance account on the target machine with a
+		\ul{fixed password for all machines accross all customers}. In addition
+		to issue 1 you gain access to \ul{all} machines accross all of your
+		customers if you get the password. Regardless to say that this is a huge
+		hole in your security concept, but some companies handle it this way.
 
 	\item Every employee has its own account on the target machine. The
 		password should be the same over all machines, so the employee won't
 		forget all these passwords.
 		\begin{itemize}
 			\item If you get a new employee or one left, you have to add /
-				delete the accounts on all machines where the employee needs
+				delete the accounts on all machines for which the employee needs
 				access. This is \textit{really} time consuming. In most cases
 				this will end up in a single account per machine, which has
 				security issues described above.

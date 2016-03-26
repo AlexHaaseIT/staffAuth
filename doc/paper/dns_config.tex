@@ -23,22 +23,22 @@
 
 \section{Configuration via DNS}
 
-\textit{Read this section \underline{carefuly} before implementing this in your
+\textit{Read this section \ul{carefuly before implementing} this in your
 network. It may cause a huge vulnerability if used in wrong environments!} \\
 
-To decrease maintenance overhead, the API proxy may be found via predefined DNS
-records. To find the local API proxy, an NAPTR\footnote{NAPTR resource record is
-defined in \href{https://tools.ietf.org/html/rfc2915}{RFC 2915}} resource record
-named \verb+staffauth+ placed in the search-domain of the client may be used to
-deploy the domain name of the API proxy: \\
+To decrease maintenance overhead, the API proxy may be found via
+NAPTR\footnote{NAPTR resource record is defined in
+\href{https://tools.ietf.org/html/rfc2915}{RFC 2915}} DNS resource records for
+the service \verb+staffauth+ in one of the local search-domains of the calling
+machine, to deploy the domain name of the API proxy: \\
 
 \begin{lstlisting}[language=none, numbers=none]
 staffauth.example.com.  IN  NAPTR  100  10  "A"  ""  ""  saprox.example.com.
 \end{lstlisting}
 
-~\\
+\vspace{0.5cm}
 
-Unlike HTTPS plain DNS \underline{has no builtin authenticity checks}.
-Use this configuration method only, if you can ensure that no third party is
-able to manipulate your network or if your DNS records are secured by
-DNSSEC and your resolver checks these records carefuly.
+Unlike HTTPS plain DNS \ul{has no builtin authenticity checks}. Use this
+configuration method only, if you can ensure that no third party is able to
+manipulate your network or if your DNS records are secured by DNSSEC and your
+resolver checks these records carefuly.

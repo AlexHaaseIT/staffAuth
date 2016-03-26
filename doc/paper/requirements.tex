@@ -23,19 +23,17 @@
 
 \section{Requirements}
 
-The following requirements should be met:
+The main focus is on \ul{data authenticity and integrety}. Otherwise one could
+simply give himself privileged access. Even third party could get access via
+MITM\footnote{\textbf{M}an \textbf{I}n \textbf{T}he \textbf{M}iddle} attacks, if
+the data could be manipulated. \\
 
-\begin{itemize}
-	\item Data initegrity and authenticity must be ensured. Otherwise one could
-		simply give himself sudo rights. Even third party could get access via
-		MITM\footnote{\textbf{M}an \textbf{I}n \textbf{T}he \textbf{M}iddle}
-		attacks, if the data could be manipulated.
-	\item Not every server should be configured by hand. This is time consuming
-		and annoying. The system should find its configuration automaticaly, but
-		it must be authenticated.
-	\item Only one account should be used per employee.
-	\item Several authentication servers should be able to be joined. In some
-		special cases you have e.g. one company which maintains the network and
-		another for some of the servers. The last one may need e.g. an SSH
-		tunnel or access to nagios, etc.
-\end{itemize}
+A second focus should be on \ul{simplicity}. The toolset should be easy to use,
+otherwise there is no benefit on using staffAuth. Every employee should use the
+same personal account accross all machines without the need to maintain the
+accounts independent per machine. \\
+
+In addition to this, the configuration at the customers' side should be simple.
+A new server should be integrated into the network in a couple of minutes.
+Credentials for accessing any data should not be managed for every machine
+indipendently, but a central gateway at the customers' side should do this job.

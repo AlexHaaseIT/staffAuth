@@ -25,18 +25,20 @@
 
 To solve these issues, a centralized database backend should be used, so every
 employee is able to manage his own account with low overhead. Usually you'll
-already have a central storage for your employees credentials to authenticate
-them at your companys machines, so why don't use them? These data should be
-accessed via a well defined API from outside, so you're free to use a backend of
-your choice. \\
+already have such a database for your employees credentials to authenticate them
+at your companys machines, so why don't use them? These data can be accessed via
+a well defined API via HTTPS, so you're free to use a backend of your choice. \\
 
-In general no passwords should be used at you customers' side. For login into
-machines SSH-keys should be used, thus this is an asymmetric system. The
-SSH-keys should be queried via API. For privileged access (sudo) onetime
-passwords should be used. Thus algorithms like TOTP\footnote{Time-Based One-Time
-Password Algorithm is defined in
-\href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are symmetric, not the
-client but the credential server should check the onetime password via API. \\
+Usually you'll authenticate yourself with SSH-Keys against the target machine.
+Since OpenSSH 6.2\footnote{see
+\href{http://www.openssh.com/txt/release-6.2}{release notes for OpenSSH 6.2}},
+the \verb+AuthorizedKeysCommand+ is available to support fetching
+\verb+authorized_keys+ from a command. With a simple script the keys could be
+fetched from the API. For privileged access (sudo) onetime passwords should be
+used. Thus algorithms like TOTP\footnote{Time-Based One-Time Password Algorithm
+is defined in \href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are
+symmetric, not the client but the credential server should check the onetime
+password via API. \\
 
 To avoid lots of configuration, a proxy server in the customers' network will be
 used, which can be found via DNS. The server should be authenticated to avoid
@@ -44,16 +46,6 @@ security issues with DNS redirection attacks.
 
 
 \subsection{Basic structure}
-
-\begin{itemize}
-	\item DNS will be used to find a local authentication proxy server in secure
-		networks.
-	\item The API will be accessed over HTTPS, so authentication can be
-		ensured with TLS certificates.
-	\item The proxy will pass requests to the API server to be used for the
-		calling user. These proxy may authenticate himself with a TLS client
-		certificate or API token to the API server, if required.
-\end{itemize}
 
 \begin{figure}[H]
 	\caption{Basic concept}
@@ -105,5 +97,14 @@ security issues with DNS redirection attacks.
 
 		\draw[reply] (server.355) to [out=330,in=210] (user.185);
 		\node [label, align=center] (cap1) at (12.5, -0.75) {(8) login granted};
+
+
+		\draw [decorate, decoration={brace, amplitude=10pt}]
+			(4.5,-3) -- (-1,-3) node [black, midway, yshift=-10pt]
+			{\tiny HTTPS with Proxy's client certificate};
+
+		\draw [decorate, decoration={brace, amplitude=10pt}]
+			(9.5,-3) -- (5.5,-3) node [black, midway, yshift=-10pt]
+			{\tiny HTTPS};
 	\end{tikzpicture}
 \end{figure}
