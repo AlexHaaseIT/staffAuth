@@ -24,12 +24,13 @@
 \subsubsection{Verify OTP token}
 
 \begin{lstlisting}[language=http_request]
-POST /users/:login/verify/otp
+POST /verify/otp
 \end{lstlisting}
 
 {\tiny \underline{Additional parameters:}}
 \begin{lstlisting}[language=json, numbers=none]
 {
+  "sshkey": "hash",
   "token": 123456
 }
 \end{lstlisting}

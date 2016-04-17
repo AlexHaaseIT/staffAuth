@@ -21,12 +21,15 @@
 %
 
 
-\subsubsection{Get SSH-keys for user}
+\subsubsection{Get SSH-keys}
 
 \begin{lstlisting}[language=http_request]
-GET /users/:login/keys
+GET /keys/:hash
 \end{lstlisting}
 
+\lstinline[language=http_request]{:hash} is an optional argument. If set, only
+the key with the definied hash will be returned, if available. The argument
+should be used whenever possible to decrease bandwith and overhead.
 
 {\tiny \underline{Response:}}
 \begin{lstlisting}[language=json, numbers=none]

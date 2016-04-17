@@ -69,10 +69,10 @@ used.
 
 \subsection{HTTPS}
 
-To ensure data authenticity, all HTTP traffic should be secured with an
-up-to-date version of TLS (HTTPS). As for any other HTTPS server, the servers'
-certificate must be signed by a CA\footnote{\textbf{C}ertificate
-\textbf{A}uthority} known by the client servers and be checked against this CA.
+To ensure data authenticity, all HTTP traffic must be secured with an up-to-date
+version of TLS (HTTPS). As for any other HTTPS server, the servers' certificate
+must be signed by a CA\footnote{\textbf{C}ertificate \textbf{A}uthority} known
+by the client servers and be checked against this CA.
 
 
 \subsection{Schema}
@@ -85,11 +85,12 @@ example API curl request for the path \verb+users/:username+ with parameter
 may look like this:
 
 \begin{lstlisting}[language=none, numbers=none]
-:~$ curl https://api.example.com/users/max
-{
-  "login": "max",
-  "id": 1,
-  ...
+:~$ curl https://api.example.com/keys
+[
+  {
+    "id": 1,
+    "key": "ssh-rsa AAA..."
+...
 \end{lstlisting}
 
 For POST requests, parameters not included in the path should be encoded as JSON
@@ -115,7 +116,6 @@ the path \verb+users/:username/verify/otp+ with parameter \verb+username+ and
 }
 
 
-\includeApiDefinition{login_credentials}
 \includeApiDefinition{ssh_keys}
 \includeApiDefinition{ssh_keys_notify}
 \includeApiDefinition{verify_otp}

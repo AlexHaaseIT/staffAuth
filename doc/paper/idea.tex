@@ -27,23 +27,31 @@ To solve these issues, a centralized database backend should be used, so every
 employee is able to manage his own account with low overhead. Usually you'll
 already have such a database for your employees credentials to authenticate them
 at your companys machines, so why don't use them? These data can be accessed via
-a well defined API via HTTPS, so you're free to use a backend of your choice. \\
+a well defined API via HTTPS, so you can feel free to use a backend of your
+choice. \\
 
 Usually you'll authenticate yourself with SSH-Keys against the target machine.
 Since OpenSSH 6.2\footnote{see
 \href{http://www.openssh.com/txt/release-6.2}{release notes for OpenSSH 6.2}},
 the \verb+AuthorizedKeysCommand+ is available to support fetching
 \verb+authorized_keys+ from a command. With a simple script the keys could be
-fetched from the API. For privileged access (sudo) onetime passwords should be
-used. Thus algorithms like TOTP\footnote{Time-Based One-Time Password Algorithm
-is defined in \href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are
-symmetric, not the client but the credential server should check the onetime
-password via API. \\
+fetched from the API. \\
 
-To avoid lots of configuration, a proxy server in the customers' network will be
-used, which can be found via DNS. The server should be authenticated to avoid
-security issues with DNS redirection attacks.
+Since there is no security benefit in seperating the
+maintenance users (since every employee needs sudo on this machine and so would
+have access to the other users data), no seperate accounts per user but a
+central maintenance account will be used. The real user can be identified via
+the used SSH key which should be logged. For privileged access (sudo) onetime
+passwords should be used as a second factor of security - integration may be
+easily managed via a PAM\footnote{\textbf{P}luggable \textbf{A}uthentication
+\textbf{M}odules} module. Thus algorithms like TOTP\footnote{Time-Based One-Time
+Password Algorithm is defined in
+\href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are symmetric, not the
+client but the credential server should check the onetime password via API. \\
 
+For a faster experience, a caching Proxy may be used, but must be secured via
+HTTPS. A simple proxy may be established via nginx as caching reverse proxy for
+the API server, secured by TLS.
 
 \subsection{Basic structure}
 
@@ -64,47 +72,48 @@ security issues with DNS redirection attacks.
 
 	\begin{tikzpicture}[node distance = 4cm, auto]
 		\node [server] (api) at (0,0) {API};
-		\node [server, fill=blue!10] (dns) at (5,2) {DNS};
 		\node [server] (proxy) at (5,-2) {Proxy};
 		\node [server] (server) at (10,0) {Server};
 		\node [user] (user) at (15,0) {User};
 
-		\draw[request] (user.175) to [out=150,in=30] (server.5);
-		\node [label, align=center] (cap1) at (12.5, 0.75) {(1) login request};
+		\draw[request] (user.167) to [out=167,in=15] (server.5);
+		\node [label, align=center] (cap1) at (12.75, 0.65) {(1) login request};
 
-		\draw[request, color=red!50] (server.155) to [out=130,in=350] (dns.350);
-		\node [label, align=right] (cap2) at (8.5, 1.75)
-			{(2) DNS request to find proxy};
+		\draw[reply] (server.355) to [out=345,in=193] (user.190);
+		\node [label, align=center] (cap1) at (12.75, -0.65)
+			{(6) login granted};
 
-		\draw[reply, color=red!50] (dns.335) to [out=300,in=170] (server.170);
-		\node [label, align=left] (cap3) at (6.5, 0.4) {(3) DNS reply};
 
+		% Way 1: direct access
+		\draw[request, color=cyan] (server.155) to [out=155,in=30] (api.30);
+		\node [label, align=left] (cap4) at (5, 1.9)
+			{(A2) User credentials request};
+
+		\draw[reply, color=cyan] (api.20) to [out=20,in=165] (server.165);
+		\node [label, align=left] (cap4) at (5, 0.7)
+			{(A3) User credentials};
+
+
+		% Way 2: via Proxy
 		\draw[request] (server.190) to [out=190,in=40] (proxy.25);
 		\node [label, align=left] (cap4) at (6.5, -0.6)
-			{(4) User credentials request};
+			{(2) User credentials request};
 
 		\draw[request] (proxy.155) to [out=130,in=350] (api.350);
 		\node [label, align=left, text width=2.3cm] (cap5) at (3.75, -0.2)
-			{(5) User credentials request to API};
+			{(3) User credentials request to API};
 
 		\draw[reply] (api.335) to [out=300,in=170] (proxy.170);
 		\node [label, align=left, text width=1.4cm] (cap6) at (2, -1.75)
-			{(6) User credentials};
+			{(4) User credentials};
 
 		\draw[reply] (proxy.10) to [out=10,in=210] (server.210);
 		\node [label, align=left, text width=1.4cm] (cap6) at (8, -1.75)
-			{(6) User credentials};
-
-		\draw[reply] (server.355) to [out=330,in=210] (user.185);
-		\node [label, align=center] (cap1) at (12.5, -0.75) {(8) login granted};
+			{(5) User credentials};
 
 
 		\draw [decorate, decoration={brace, amplitude=10pt}]
-			(4.5,-3) -- (-1,-3) node [black, midway, yshift=-10pt]
-			{\tiny HTTPS with Proxy's client certificate};
-
-		\draw [decorate, decoration={brace, amplitude=10pt}]
-			(9.5,-3) -- (5.5,-3) node [black, midway, yshift=-10pt]
+			(9.5,-2.5) -- (0,-2.5) node [black, midway, yshift=-10pt]
 			{\tiny HTTPS};
 	\end{tikzpicture}
 \end{figure}

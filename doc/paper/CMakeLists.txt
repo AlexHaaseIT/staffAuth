@@ -31,15 +31,11 @@ include(UseLATEX)
 add_latex_document(paper.tex
 	INPUTS
 		api.tex
-		api/login_credentials.tex
 		api/ssh_keys.tex
 		api/ssh_keys_notify.tex
 		api/verify_otp.tex
 
 		abstract.tex
-		credentials.tex
-		concept.tex
-		dns_config.tex
 		idea.tex
 		problem.tex
 		requirements.tex
