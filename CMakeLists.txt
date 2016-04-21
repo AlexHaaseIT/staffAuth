@@ -29,7 +29,7 @@ cmake_minimum_required(VERSION 2.8.11)
 # project information
 #
 if (${CMAKE_MAJOR_VERSION} EQUAL 3)
-	project("staffAuth" LANGUAGES C CXX)
+	project("staffAuth" LANGUAGES C)
 else ()
 	project("staffAuth" C)
 endif ()
@@ -47,10 +47,20 @@ endif (POLICY CMP0042)
 #
 set(CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/externals/useLATEX"
+	"${CMAKE_SOURCE_DIR}/externals/CMake-sanitizers/cmake"
+	"${CMAKE_SOURCE_DIR}/externals/CMake-codecov/cmake"
 	${CMAKE_MODULE_PATH})
+
+# enable code coverage
+find_package(codecov)
 
 
 #
 # recurse into subdirectories
 #
 add_subdirectory(doc)
+add_subdirectory(src)
+
+
+# evaluate coverage data
+coverage_evaluate()

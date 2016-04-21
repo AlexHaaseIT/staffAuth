@@ -1,0 +1,45 @@
+language: c
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      sudo: false
+    - os: linux
+      compiler: clang
+      sudo: false
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+      env: SANITIZER=MEMORY
+      script:
+        - mkdir travis && cd travis
+        - cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=On -DSANITIZE_MEMORY=On -DSANITIZE_UNDEFINED=On && make install
+
+
+addons:
+  apt:
+    sources:
+      - kalakris-cmake
+    packages:
+      - cmake
+
+
+script:
+  - mkdir travis && cd travis
+  - cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=On -DSANITIZE_ADDRESS=On -DSANITIZE_UNDEFINED=On && make install
+
+after_success:
+  - make -k gcov
+  - bash <(curl -s https://codecov.io/bash) -X gcov
