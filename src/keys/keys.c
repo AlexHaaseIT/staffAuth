@@ -27,6 +27,9 @@
 #include <json-c/json.h> // JSON-C interface
 
 
+#define API_SERVER "http://localhost:8888"
+
+
 int
 main(int argc, char **argv)
 {
@@ -43,16 +46,21 @@ main(int argc, char **argv)
 	size_t buffer_len = 0;
 	FILE *fd = open_memstream(&buffer, &buffer_len);
 
-	curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8888/ssh-keys");
+	curl_easy_setopt(curl, CURLOPT_URL, API_SERVER "/ssh-keys");
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, fd);
 
 	/* Perform the request, res will get the return code */
 	res = curl_easy_perform(curl);
 	/* Check for errors */
-	if (res != CURLE_OK)
+	if (res != CURLE_OK) {
 		fprintf(stderr, "curl_easy_perform() failed: %s\n",
 		        curl_easy_strerror(res));
+		curl_easy_cleanup(curl);
+		fclose(fd);
+		free(buffer);
+		return EXIT_FAILURE;
+	}
 
 
 	/* always cleanup */
