@@ -34,6 +34,8 @@ addons:
       - kalakris-cmake
     packages:
       - cmake
+      - libcurl3-openssl-dev
+      - libjson-c-dev
 
 
 script:

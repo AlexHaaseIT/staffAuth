@@ -46,6 +46,7 @@ endif (POLICY CMP0042)
 # cmake configuration
 #
 set(CMAKE_MODULE_PATH
+	"${CMAKE_SOURCE_DIR}/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/useLATEX"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-sanitizers/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-codecov/cmake"

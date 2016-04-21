@@ -20,11 +20,67 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <stdlib.h> // EXIT_ macros
+#include <stdio.h>  // fprintf, open_memstream
+#include <stdlib.h> // EXIT_ macros, free
+
+#include <curl/curl.h>   // cURL interface
+#include <json-c/json.h> // JSON-C interface
 
 
 int
 main(int argc, char **argv)
 {
+	CURL *curl;
+	CURLcode res;
+
+	curl = curl_easy_init();
+	if (curl == NULL) {
+		fprintf(stderr, "curl_easy_init failed\n");
+		return EXIT_FAILURE;
+	}
+
+	char *buffer = NULL;
+	size_t buffer_len = 0;
+	FILE *fd = open_memstream(&buffer, &buffer_len);
+
+	curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8888/ssh-keys");
+	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, fd);
+
+	/* Perform the request, res will get the return code */
+	res = curl_easy_perform(curl);
+	/* Check for errors */
+	if (res != CURLE_OK)
+		fprintf(stderr, "curl_easy_perform() failed: %s\n",
+		        curl_easy_strerror(res));
+
+
+	/* always cleanup */
+	curl_easy_cleanup(curl);
+	fclose(fd);
+
+
+	json_object *jobj = json_tokener_parse(buffer);
+
+	enum json_type type = json_object_get_type(jobj);
+	if (type != json_type_array) {
+		fprintf(stderr, "Wrong type of root object!\n");
+		exit(EXIT_FAILURE);
+	}
+
+	size_t n = json_object_array_length(jobj);
+	size_t i;
+	json_object *iter, *buff;
+	for (i = 0; i < n; i++) {
+		iter = json_object_array_get_idx(jobj, i);
+		if (json_object_object_get_ex(iter, "key", &buff))
+			printf("%s\n", json_object_get_string(buff));
+	}
+
+	json_object_put(jobj);
+
+
+	free(buffer);
+
 	return EXIT_SUCCESS;
 }

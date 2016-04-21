@@ -19,20 +19,21 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-find_package(Sanitizers)
-find_package(CURL REQUIRED)
-find_package(JSON-C REQUIRED)
+# This CMake module is based on the CMake tutorial on "How to find libraries"
+# for libxml2 and FindJSON-C.cmake by the cshark project.
 
+find_package(PkgConfig)
+pkg_check_modules(PC_JSON-C QUIET libjson-c)
 
-include_directories(${CURL_INCLUDE_DIRS} ${JSON-C_INCLUDE_DIR})
+find_path(JSON-C_INCLUDE_DIR json.h
+	HINTS ${PC_JSON-C_INCLUDEDIR} ${PC_JSON-C_INCLUDE_DIRS}
+	PATH_SUFFIXES json-c)
 
-add_executable(staffauth-keys
-	keys.c)
+find_library(JSON-C_LIBRARY NAMES json-c libjson-c
+	HINTS ${PC_JSON-C_LIBDIR} ${PC_JSON-C_LIBRARY_DIRS})
 
-target_link_libraries(staffauth-keys ${CURL_LIBRARIES} ${JSON-C_LIBRARY})
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(JSON-C DEFAULT_MSG JSON-C_LIBRARY
+	JSON-C_INCLUDE_DIR)
 
-add_coverage(staffauth-keys)
-add_sanitizers(staffauth-keys)
-
-
-install(TARGETS staffauth-keys DESTINATION bin)
+mark_as_advanced(JSON-C_INCLUDE_DIR JSON-C_LIBRARY)
