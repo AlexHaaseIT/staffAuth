@@ -27,6 +27,8 @@ find_package(JSON-C REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS} ${JSON-C_INCLUDE_DIR})
 
 add_executable(staffauth-keys
+	config_cmdargs.c
+	config_conffile.c
 	keys.c)
 
 target_link_libraries(staffauth-keys ${CURL_LIBRARIES} ${JSON-C_LIBRARY})

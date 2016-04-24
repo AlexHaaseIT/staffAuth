@@ -22,17 +22,24 @@
 
 #include <stdio.h>  // fprintf, open_memstream
 #include <stdlib.h> // EXIT_ macros, free
+#include <string.h> // strlen
 
 #include <curl/curl.h>   // cURL interface
 #include <json-c/json.h> // JSON-C interface
 
-
-#define API_SERVER "http://localhost:8888"
+#include "config.h"
 
 
 int
 main(int argc, char **argv)
 {
+	/* Read configuration from command line and find required configuration
+	 * files. */
+	keys_config config = {0};
+	staffauth_keys_parse_args(argc, argv, &config);
+	staffauth_keys_parse_conffile(&config);
+
+
 	CURL *curl;
 	CURLcode res;
 
@@ -46,7 +53,10 @@ main(int argc, char **argv)
 	size_t buffer_len = 0;
 	FILE *fd = open_memstream(&buffer, &buffer_len);
 
-	curl_easy_setopt(curl, CURLOPT_URL, API_SERVER "/ssh-keys");
+	size_t url_len = strlen(config.server) + 10;
+	char url[url_len];
+	snprintf(url, url_len, "%s/ssh-keys", config.server);
+	curl_easy_setopt(curl, CURLOPT_URL, url);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, fd);
 
@@ -89,6 +99,8 @@ main(int argc, char **argv)
 
 
 	free(buffer);
+
+	free(config.server);
 
 	return EXIT_SUCCESS;
 }
