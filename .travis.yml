@@ -3,13 +3,6 @@ language: c
 matrix:
   include:
     - os: linux
-      compiler: gcc
-      sudo: false
-    - os: linux
-      compiler: clang
-      sudo: false
-
-    - os: linux
       dist: trusty
       sudo: required
       compiler: gcc
@@ -34,7 +27,7 @@ addons:
       - kalakris-cmake
     packages:
       - cmake
-      - libcurl3-openssl-dev
+      - libcurl-dev
       - libjson-c-dev
 
 
