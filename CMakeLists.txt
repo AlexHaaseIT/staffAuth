@@ -1,7 +1,7 @@
-# This file is part of staffAuth.
+# This file is part of mauth.
 #
-# staffAuth is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
+# mauth is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later
 # version.
 #
@@ -29,9 +29,9 @@ cmake_minimum_required(VERSION 2.8.11)
 # project information
 #
 if (${CMAKE_MAJOR_VERSION} EQUAL 3)
-	project("staffAuth" LANGUAGES C CXX)
+	project("mauth" LANGUAGES C CXX)
 else ()
-	project("staffAuth" C)
+	project("mauth" C)
 endif ()
 
 
