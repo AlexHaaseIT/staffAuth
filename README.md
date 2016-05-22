@@ -1,13 +1,12 @@
-# staffAuth
+# mauth
 
-[![Build Status](https://travis-ci.org/AlexHaaseIT/staffAuth.svg)](https://travis-ci.org/AlexHaaseIT/staffAuth)
+[![Build Status](https://travis-ci.org/mksec/mauth.svg)](https://travis-ci.org/mksec/mauth)
 
-staffAuth is a toolset with different tools to authenticate stuff on customer servers based on Linux.
-
+mauth is a concept and a set of tools to authenticate maintenance employees at mainly Linux based machines and other services at customers’ side.
 
 ## License
 
-staffAuth is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Mauth is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but **without any warranty**; without even the implied warranty of **merchantability** or **fitness for a particular purpose**. See the GNU General Public License for more details.
 
