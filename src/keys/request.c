@@ -28,6 +28,13 @@
 
 #include <curl/curl.h> // cURL interface
 
+/* open_memstream is available at recent GNU/Linux platforms only. To be
+ * compatible with older Linux platforms, BSD and OSX (Darwin), an alternative
+ * memstream implementation might be used on these platforms. The memstream
+ * header file will decide, if open_memstream is available at the current
+ * platform and support an alternative if needed. */
+#include "memstream.h"
+
 
 /** \brief Generate URL for API request.
  *

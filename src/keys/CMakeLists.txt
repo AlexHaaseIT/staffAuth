@@ -30,7 +30,9 @@ add_executable(staffauth-keys
 	config_cmdargs.c
 	config_conffile.c
 	request.c
-	keys.c)
+	keys.c
+	memstream.c
+)
 
 target_link_libraries(staffauth-keys ${CURL_LIBRARIES} ${JSON-C_LIBRARY})
 
