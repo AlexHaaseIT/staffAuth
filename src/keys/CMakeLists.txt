@@ -26,7 +26,7 @@ find_package(JSON-C REQUIRED)
 
 include_directories(${CURL_INCLUDE_DIRS} ${JSON-C_INCLUDE_DIR})
 
-add_executable(staffauth-keys
+add_executable(mauth-keys
 	config_cmdargs.c
 	config_conffile.c
 	request.c
@@ -34,10 +34,10 @@ add_executable(staffauth-keys
 	memstream.c
 )
 
-target_link_libraries(staffauth-keys ${CURL_LIBRARIES} ${JSON-C_LIBRARY})
+target_link_libraries(mauth-keys ${CURL_LIBRARIES} ${JSON-C_LIBRARY})
 
-add_coverage(staffauth-keys)
-add_sanitizers(staffauth-keys)
+add_coverage(mauth-keys)
+add_sanitizers(mauth-keys)
 
 
-install(TARGETS staffauth-keys DESTINATION bin)
+install(TARGETS mauth-keys DESTINATION bin)
