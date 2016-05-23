@@ -20,6 +20,12 @@ matrix:
         - mkdir travis && cd travis
         - cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=On -DSANITIZE_MEMORY=On -DSANITIZE_UNDEFINED=On && make install
 
+    - os: osx
+      compiler: clang
+      before_install:
+        - brew update --quiet >& /dev/null
+        - brew outdated cmake || brew upgrade cmake
+        - brew outdated json-c || brew upgrade json-c
 
 addons:
   apt:
