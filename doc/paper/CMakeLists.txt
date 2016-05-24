@@ -37,6 +37,7 @@ add_latex_document(paper.tex
 
 		abstract.tex
 		idea.tex
+		license.tex
 		problem.tex
 		requirements.tex
 	DEFAULT_PDF
