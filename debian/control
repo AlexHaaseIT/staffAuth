@@ -1,0 +1,26 @@
+Source: mauth
+Maintainer: Alexander Haase <ahaase@alexhaase.de>
+Section: admin
+Priority: optional
+Build-Depends: cmake, debhelper (>= 9), libjson-c-dev, libcurl4-openssl-dev,
+ libconfig-dev
+Standards-Version: 3.9.6
+#Vcs-Git: git://github.com/mksec/mauth.git
+#Vcs-Browser: https://github.com/mksec/mauth
+
+Package: mauth-openssh
+Architecture: all
+Section: admin
+Priority: optional
+Depends: ${shlibs:Depends}, ${misc:Depends}, openssh-server
+Description: Mauth API framework - openssh integration.
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the mauth integration for OpenSSH. After installation the
+ configuration will be integrated into OpenSSH's configuration and it should
+ work out of the box.
