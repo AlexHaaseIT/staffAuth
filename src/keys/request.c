@@ -67,7 +67,7 @@ mauth_keys_genurl(mauth_keys_config *config)
 	/* Append API target ssh-keys to server domain defined in config. https://
 	 * will not be prefixed, thus communication at localhost may use http for
 	 * testing purposes. */
-	int ret = fprintf(fd, "%s/ssh-keys", config->server);
+	int ret = fprintf(fd, "%s/keys", config->server);
 	fclose(fd);
 
 	/* If fprintf failed, free allocated memory buffer and return a NULL pointer
