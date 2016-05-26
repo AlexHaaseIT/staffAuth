@@ -26,6 +26,7 @@ matrix:
         - brew update --quiet >& /dev/null
         - brew outdated cmake || brew upgrade cmake
         - brew outdated json-c || brew upgrade json-c
+        - brew install libconfig
 
 addons:
   apt:
@@ -35,6 +36,7 @@ addons:
       - cmake
       - libcurl4-openssl-dev
       - libjson-c-dev
+      - libconfig-dev
 
 
 script:
