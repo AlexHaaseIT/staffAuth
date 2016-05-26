@@ -1,3 +1,9 @@
+mauth (1.1.0) unstable; urgency=low
+
+  * fix Predefined paths
+
+ -- Alexander Haase <ahaase@alexhaase.de>  Thu, 26 May 2016 21:31:30 +0200
+
 mauth (1.0.2) unstable; urgency=low
 
   * binary packages were empty

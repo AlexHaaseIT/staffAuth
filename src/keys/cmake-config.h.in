@@ -24,7 +24,7 @@
 #define MAUTH_KEYS_CMAKE_CONFIG_H
 
 
-#define MAUTH_CONFIG_DIR "@CMAKE_INSTALL_PREFIX@/etc/mauth"
+#define MAUTH_CONFIG_DIR "@MAUTH_CONFIG_DIR@"
 
 
 #endif
