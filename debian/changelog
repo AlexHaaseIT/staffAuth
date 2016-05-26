@@ -1,3 +1,11 @@
+mauth (1.0.2) unstable; urgency=low
+
+  * binary packages were empty
+  * shlibs could not be found (because binary packages were empty)
+  * section and priority of mauth-openssh-dbg were wrong
+
+ -- Alexander Haase <ahaase@alexhaase.de>  Thu, 26 May 2016 20:48:05 +0200
+
 mauth (1.0.1) unreleased; urgency=low
 
   * fixes in debian/control

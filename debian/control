@@ -27,8 +27,8 @@ Description: Mauth API framework - openssh integration.
 
 Package: mauth-openssh-dbg
 Architecture: any
-Section: admin
-Priority: optional
+Section: debug
+Priority: extra
 Depends: mauth-openssh (= ${binary:Version})
 Description: Mauth API framework - openssh integration.
  mauth is an authentication API for authenticating external employees at
