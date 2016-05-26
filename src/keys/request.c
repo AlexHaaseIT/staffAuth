@@ -48,7 +48,7 @@
  *  responsible to free the memory.
  */
 static char *
-staffauth_keys_genurl(keys_config *config)
+mauth_keys_genurl(mauth_keys_config *config)
 {
 	/* Check all variables, if they are valid. In addition to the function
 	 * parameters check if a server was set in config. */
@@ -93,7 +93,7 @@ staffauth_keys_genurl(keys_config *config)
  *  responsible to free the memory.
  */
 char *
-staffauth_keys_request(keys_config *config)
+mauth_keys_request(mauth_keys_config *config)
 {
 	// Check all function parameters, if they are valid.
 	assert(config);
@@ -114,7 +114,7 @@ staffauth_keys_request(keys_config *config)
 	/* Generate a valid URL for the following cURL request. The URL will be
 	 * stored in a new allocated buffer and will be freed just after transfering
 	 * to cURL. */
-	char *url = staffauth_keys_genurl(config);
+	char *url = mauth_keys_genurl(config);
 	if (url == NULL)
 		goto cleanup_curl;
 

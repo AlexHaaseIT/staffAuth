@@ -37,12 +37,12 @@ main(int argc, char **argv)
 
 	/* Read configuration from command line and find required configuration
 	 * files. */
-	keys_config config = {0};
-	staffauth_keys_parse_args(argc, argv, &config);
-	staffauth_keys_parse_conffile(&config);
+	mauth_keys_config config = {0};
+	mauth_keys_parse_args(argc, argv, &config);
+	mauth_keys_parse_conffile(&config);
 
 
-	char *data = staffauth_keys_request(&config);
+	char *data = mauth_keys_request(&config);
 	if (data != NULL) {
 		json_object *jobj = json_tokener_parse(data);
 

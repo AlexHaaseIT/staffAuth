@@ -28,7 +28,7 @@
 
 
 void
-staffauth_keys_parse_conffile(keys_config *config)
+mauth_keys_parse_conffile(mauth_keys_config *config)
 {
 	if (strcmp(config->login, "maintain") != 0) {
 		fprintf(stderr, "No configuration found for user %s", config->login);

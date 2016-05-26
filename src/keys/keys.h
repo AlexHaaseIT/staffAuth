@@ -20,14 +20,14 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef STAFFAUTH_KEYS_H
-#define STAFFAUTH_KEYS_H
+#ifndef MAUTH_KEYS_H
+#define MAUTH_KEYS_H
 
 
 #include "config.h"
 
 
-char *staffauth_keys_request(keys_config *config);
+char *mauth_keys_request(mauth_keys_config *config);
 
 
 #endif

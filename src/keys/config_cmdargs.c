@@ -27,7 +27,7 @@
 
 
 void
-staffauth_keys_parse_args(int argc, char **argv, keys_config *config)
+mauth_keys_parse_args(int argc, char **argv, mauth_keys_config *config)
 {
 	if (argc < 2) {
 		fprintf(stderr, "Usage: %s [login]\n", argv[0]);

@@ -20,19 +20,19 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef STAFFAUTH_KEYS_CONFIG_H
-#define STAFFAUTH_KEYS_CONFIG_H
+#ifndef MAUTH_KEYS_CONFIG_H
+#define MAUTH_KEYS_CONFIG_H
 
 
-typedef struct keys_config
+typedef struct mauth_keys_config
 {
 	const char *login;
 	char *server;
-} keys_config;
+} mauth_keys_config;
 
 
-void staffauth_keys_parse_args(int argc, char **argv, keys_config *config);
-void staffauth_keys_parse_conffile(keys_config *config);
+void mauth_keys_parse_args(int argc, char **argv, mauth_keys_config *config);
+void mauth_keys_parse_conffile(mauth_keys_config *config);
 
 
 #endif
