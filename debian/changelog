@@ -1,4 +1,12 @@
-mauth (1) stable; urgency=low
+mauth (1.0.1) unreleased; urgency=low
+
+  * fixes in debian/control
+  * separate debug package for mauth-openssh
+  * added debian/source/format
+
+ -- Alexander Haase <ahaase@alexhaase.de>  Thu, 26 May 2016 20:05:57 +0200
+
+mauth (1) unreleased; urgency=low
 
   * initial release
 

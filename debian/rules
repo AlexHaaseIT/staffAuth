@@ -2,3 +2,8 @@
 
 %:
 	dh $@ --buildsystem=cmake
+
+
+.PHONY: override_dh_strip
+override_dh_strip:
+	dh_strip -pmauth-openssh --dbg-package=mauth-openssh-dbg
