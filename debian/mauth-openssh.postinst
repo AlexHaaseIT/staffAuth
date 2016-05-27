@@ -32,6 +32,8 @@ case "$1" in
 		# will be executed by user nobody.
 		set_config_option AuthorizedKeysCommand /usr/bin/mauth-keys
 		set_config_option AuthorizedKeysCommandUser nobody
+
+		invoke-rc.d ssh reload
 	;;
 
 	abort-upgrade|abort-remove|abort-deconfigure)

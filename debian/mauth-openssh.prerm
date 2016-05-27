@@ -18,6 +18,8 @@ case "$1" in
 		# from sshd_config of OpenSSH.
 		rm_config_option AuthorizedKeysCommand /usr/bin/mauth-keys
 		rm_config_option AuthorizedKeysCommandUser nobody
+
+		invoke-rc.d ssh reload
 	;;
 
 	upgrade|failed-upgrade)
