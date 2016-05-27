@@ -37,6 +37,7 @@ addons:
       - libcurl4-openssl-dev
       - libjson-c-dev
       - libconfig-dev
+      - libpam0g-dev
 
 
 script:

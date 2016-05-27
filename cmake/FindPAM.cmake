@@ -19,20 +19,15 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-# Set some paths for mauth. We will use the paths defined by GNUInstallDirs. If
-# the path is not absolute, we will preprend the install prefix. This ensures
-# most compatibility with dpkg and non-dpkg installations.
-include(GNUInstallDirs)
+# This CMake module is based on the CMake tutorial on "How to find libraries"
+# for libxml2. Thus libpam does not support pkgconfig, pkgconfig will be skipped
+# in this module.
 
-set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_SYSCONFDIR}/mauth")
-if (NOT IS_ABSOLUTE ${MAUTH_CONFIG_DIR})
-	set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_PREFIX}/${MAUTH_CONFIG_DIR}")
-endif ()
+find_path(PAM_INCLUDE_DIR security/pam_modules.h)
 
-message(STATUS "Predefined paths:")
-message(STATUS "  config: ${MAUTH_CONFIG_DIR}")
+find_library(PAM_LIBRARY NAMES pam libpam)
 
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(PAM DEFAULT_MSG PAM_LIBRARY PAM_INCLUDE_DIR)
 
-# recurse into subdirectories
-add_subdirectory(keys)
-add_subdirectory(pam)
+mark_as_advanced(PAM_INCLUDE_DIR PAM_LIBRARY)

@@ -19,20 +19,18 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-# Set some paths for mauth. We will use the paths defined by GNUInstallDirs. If
-# the path is not absolute, we will preprend the install prefix. This ensures
-# most compatibility with dpkg and non-dpkg installations.
-include(GNUInstallDirs)
-
-set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_SYSCONFDIR}/mauth")
-if (NOT IS_ABSOLUTE ${MAUTH_CONFIG_DIR})
-	set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_PREFIX}/${MAUTH_CONFIG_DIR}")
-endif ()
-
-message(STATUS "Predefined paths:")
-message(STATUS "  config: ${MAUTH_CONFIG_DIR}")
+find_package(Sanitizers)
+find_package(PAM REQUIRED)
 
 
-# recurse into subdirectories
-add_subdirectory(keys)
-add_subdirectory(pam)
+include_directories(${PAM_INCLUDE_DIR})
+
+add_library(mauth-pam SHARED
+	mauth_pam.c
+)
+
+target_link_libraries(mauth-pam pam mauth)
+
+set_target_properties(mauth-pam PROPERTIES OUTPUT_NAME "mauth" PREFIX "pam_")
+
+install(TARGETS mauth-pam DESTINATION lib/security)
