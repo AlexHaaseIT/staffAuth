@@ -20,14 +20,38 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_H
-#define MAUTH_KEYS_H
+#ifndef MAUTH_H
+#define MAUTH_H
 
 
-#include "config.h"
+#include <stdbool.h>
 
 
-char *mauth_keys_request(const char *server);
+/** \brief Internal status and storage of mauth library.
+ *
+ * \details This struct stores internal data and status of the mauth instance.
+ *  This struct must be initialized by mauth_init and destroyed by mauth_destroy
+ *  to free allocated memory.
+ */
+typedef struct mauth
+{
+	char *server;
+} mauth;
+
+
+/** \brief Return statuses of mauth.
+ */
+typedef enum mauth_status {
+	MAUTH_SUCCESS,      //< Everything went fine
+	MAUTH_USER_UNKNOWN, //< The user is not handled by mauth.
+	MAUTH_ERR_IO        //< The configuration file could not be read.
+} mauth_status;
+
+
+void mauth_init(mauth *mh);
+void mauth_destroy(mauth *mauth);
+
+mauth_status mauth_set_login(mauth *mh, const char *login);
 
 
 #endif

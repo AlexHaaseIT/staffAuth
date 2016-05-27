@@ -48,11 +48,11 @@
  *  responsible to free the memory.
  */
 static char *
-mauth_keys_genurl(mauth_keys_config *config)
+mauth_keys_genurl(const char *server)
 {
 	/* Check all variables, if they are valid. In addition to the function
 	 * parameters check if a server was set in config. */
-	assert(config->server);
+	assert(server);
 
 
 	/* Instead of maintianing our own implementation of dynamic buffer
@@ -67,7 +67,7 @@ mauth_keys_genurl(mauth_keys_config *config)
 	/* Append API target ssh-keys to server domain defined in config. https://
 	 * will not be prefixed, thus communication at localhost may use http for
 	 * testing purposes. */
-	int ret = fprintf(fd, "%s/keys", config->server);
+	int ret = fprintf(fd, "%s/keys", server);
 	fclose(fd);
 
 	/* If fprintf failed, free allocated memory buffer and return a NULL pointer
@@ -93,10 +93,10 @@ mauth_keys_genurl(mauth_keys_config *config)
  *  responsible to free the memory.
  */
 char *
-mauth_keys_request(mauth_keys_config *config)
+mauth_keys_request(const char *server)
 {
 	// Check all function parameters, if they are valid.
-	assert(config);
+	assert(server);
 
 
 	/* Define some variables at the beginning of the function, thus they should
@@ -114,7 +114,7 @@ mauth_keys_request(mauth_keys_config *config)
 	/* Generate a valid URL for the following cURL request. The URL will be
 	 * stored in a new allocated buffer and will be freed just after transfering
 	 * to cURL. */
-	char *url = mauth_keys_genurl(config);
+	char *url = mauth_keys_genurl(server);
 	if (url == NULL)
 		goto cleanup_curl;
 

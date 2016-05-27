@@ -20,32 +20,25 @@
 #
 
 find_package(Sanitizers)
-find_package(CURL REQUIRED)
-find_package(JSON-C REQUIRED)
+find_package(Libconfig REQUIRED)
 
 
-include_directories(
-	${CURL_INCLUDE_DIRS}
-	${JSON-C_INCLUDE_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}
-	../libmauth
+# Configure files
+configure_file(cmake-config.h.in cmake-config.h)
+
+
+# Add libmauth
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${LIBCONFIG_INCLUDE_DIR})
+
+add_library(mauth SHARED
+	init.c
+	destroy.c
+
+	set_login.c
 )
+add_coverage(mauth)
+add_sanitizers(mauth)
 
-add_executable(mauth-keys
-	config_cmdargs.c
-	request.c
-	keys.c
-	memstream.c
-)
+target_link_libraries(mauth ${LIBCONFIG_LIBRARY})
 
-target_link_libraries(mauth-keys
-	${CURL_LIBRARIES}
-	${JSON-C_LIBRARY}
-	mauth
-)
-
-add_coverage(mauth-keys)
-add_sanitizers(mauth-keys)
-
-
-install(TARGETS mauth-keys DESTINATION bin)
+install(TARGETS mauth LIBRARY DESTINATION lib)

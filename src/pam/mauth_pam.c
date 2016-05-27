@@ -28,6 +28,7 @@
 
 #include <stddef.h>
 
+#include <mauth.h>
 #include <security/pam_appl.h>    // pam_get_user (OSX only)
 #include <security/pam_modules.h> // pam_get_user
 
@@ -54,5 +55,37 @@
 PAM_EXTERN int
 pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 {
-	return PAM_IGNORE;
+	int pam_ret;
+	mauth mh;
+	mauth_status mauth_ret;
+
+
+	/* Initialize mauth handle. */
+	mauth_init(&mh);
+
+
+	/* Try to get the login used to authenticate and set it as mauth login. If
+	 * either pam_get_user or mauth_set_login fails, we'll set appropiate error
+	 * return values, to indicate the specific error. */
+	const char *login;
+	if ((pam_ret = pam_get_user(pamh, &login, NULL)) != PAM_SUCCESS)
+		goto ret_pam_sm_login;
+
+	if ((mauth_ret = mauth_set_login(&mh, login)) != MAUTH_SUCCESS) {
+		if (mauth_ret == MAUTH_USER_UNKNOWN)
+			pam_ret = PAM_USER_UNKNOWN;
+		else if (mauth_ret == MAUTH_ERR_IO)
+			pam_ret = PAM_AUTHINFO_UNAVAIL;
+
+		goto ret_pam_sm_login;
+	}
+
+
+	pam_ret = PAM_IGNORE;
+
+
+ret_pam_sm_login:
+	mauth_destroy(&mh);
+
+	return pam_ret;
 }

@@ -20,14 +20,25 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_H
-#define MAUTH_KEYS_H
+#include "mauth.h"
+
+#include <stdlib.h>
 
 
-#include "config.h"
-
-
-char *mauth_keys_request(const char *server);
-
-
-#endif
+/** \brief Destroy \ref mauth handle \p mh.
+ *
+ * \details This function will destroy the \ref mauth handle \mh. Memory
+ *  allocated by mauth functions will be freed. The \ref mauth struct \p mh will
+ *  NOT be freed, because in most times it was not dynamic allocated.
+ *
+ *
+ * \param mh \ref mauth handle.
+ *
+ * \info \ref mauth_init must be called for each \ref mauth handle before
+ *  calling \ref mauth_destroy.
+ */
+void
+mauth_destroy(mauth *mh)
+{
+	free(mh->server);
+}

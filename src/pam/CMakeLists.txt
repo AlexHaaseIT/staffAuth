@@ -23,7 +23,7 @@ find_package(Sanitizers)
 find_package(PAM REQUIRED)
 
 
-include_directories(${PAM_INCLUDE_DIR})
+include_directories(${PAM_INCLUDE_DIR} ../libmauth)
 
 add_library(mauth-pam SHARED
 	mauth_pam.c

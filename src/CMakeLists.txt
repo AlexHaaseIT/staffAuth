@@ -34,5 +34,6 @@ message(STATUS "  config: ${MAUTH_CONFIG_DIR}")
 
 
 # recurse into subdirectories
+add_subdirectory(libmauth)
 add_subdirectory(keys)
 add_subdirectory(pam)

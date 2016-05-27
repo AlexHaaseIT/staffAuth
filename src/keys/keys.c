@@ -26,6 +26,7 @@
 #include <stdlib.h> // EXIT_ macros, free
 
 #include <json-c/json.h> // JSON-C interface
+#include <mauth.h>       // mauth interface
 
 #include "config.h"
 
@@ -34,15 +35,31 @@ int
 main(int argc, char **argv)
 {
 	int ret = EXIT_SUCCESS;
+	mauth mh;
+
 
 	/* Read configuration from command line and find required configuration
 	 * files. */
 	mauth_keys_config config = {0};
 	mauth_keys_parse_args(argc, argv, &config);
-	mauth_keys_parse_conffile(&config);
 
 
-	char *data = mauth_keys_request(&config);
+	/* Initialize mauth handle and get server. */
+	mauth_init(&mh);
+	mauth_status stat;
+	if ((stat = mauth_set_login(&mh, config.login)) != MAUTH_SUCCESS) {
+		if (stat == MAUTH_USER_UNKNOWN)
+			return EXIT_SUCCESS;
+		else {
+			fprintf(stderr,
+			        "Error while reading configuration for login '%s'.\n",
+			        config.login);
+			return EXIT_FAILURE;
+		}
+	}
+	char *data = mauth_keys_request(mh.server);
+	mauth_destroy(&mh);
+
 	if (data != NULL) {
 		json_object *jobj = json_tokener_parse(data);
 
@@ -68,7 +85,6 @@ main(int argc, char **argv)
 	}
 
 	free(data);
-	free(config.server);
 
 	return ret;
 }

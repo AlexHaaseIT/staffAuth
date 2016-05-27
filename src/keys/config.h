@@ -27,12 +27,10 @@
 typedef struct mauth_keys_config
 {
 	const char *login;
-	char *server;
 } mauth_keys_config;
 
 
 void mauth_keys_parse_args(int argc, char **argv, mauth_keys_config *config);
-void mauth_keys_parse_conffile(mauth_keys_config *config);
 
 
 #endif
