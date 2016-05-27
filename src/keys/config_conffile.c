@@ -74,27 +74,25 @@ mauth_keys_login_config_file(mauth_keys_config *config)
 
 
 	/* Check, if the file is present and readable. */
-	if (access(config_file, F_OK) != 0)
+	if (access(config_file, F_OK) != 0) {
 		/* If it is not present, the login will not be managed via mauth, so we
-		 * will fail silently. */
-		goto no_conf_file;
+		 * will fail silently. The exit code will be EXIT_SUCCESS, to prevent
+		 * OpenSSH server sending error log messages to syslog. */
+		free(config_file);
+		exit(EXIT_SUCCESS);
 
-	else if (access(config_file, R_OK) != 0) {
+	} else if (access(config_file, R_OK) != 0) {
 		/* If the file is present, but can't be read, there is a permission
 		 * error and we should print an error message before exiting. */
 		fprintf(stderr, "Can't read configuration file in '%s'.\n",
 		        config_file);
-		goto no_conf_file;
+		free(config_file);
+		exit(EXIT_FAILURE);
 	}
 
 
 	/* Return the config file path, if it is accessable by the user. */
 	return config_file;
-
-
-no_conf_file:
-	free(config_file);
-	exit(EXIT_FAILURE);
 }
 
 
