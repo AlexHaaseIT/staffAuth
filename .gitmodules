@@ -1,3 +1,9 @@
 [submodule "externals/useLATEX"]
 	path = externals/useLATEX
 	url = https://github.com/kmorel/UseLATEX.git
+[submodule "externals/CMake-sanitizers"]
+	path = externals/CMake-sanitizers
+	url = https://github.com/RWTH-ELP/CMake-sanitizers.git
+[submodule "externals/CMake-codecov"]
+	path = externals/CMake-codecov
+	url = https://github.com/RWTH-ELP/CMake-codecov.git
