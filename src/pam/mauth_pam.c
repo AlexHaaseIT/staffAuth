@@ -26,10 +26,12 @@
 #define PAM_SM_AUTH
 
 
+#include <ctype.h>
 #include <stddef.h>
 
 #include <mauth.h>
 #include <security/pam_appl.h>    // pam_get_user (OSX only)
+#include <security/pam_ext.h>     // pam_get_authtok
 #include <security/pam_modules.h> // pam_get_user
 
 
@@ -79,6 +81,22 @@ pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 
 		goto ret_pam_sm_login;
 	}
+
+
+	/* Ask the user for the one time password. */
+	const char *otp_token;
+	if ((pam_ret = pam_get_authtok(pamh, PAM_AUTHTOK, &otp_token,
+	                               "Verification code:")) != PAM_SUCCESS)
+		goto ret_pam_sm_login;
+
+	/* If the entered token does not match the requirements for one time pass-
+	 * words as defined in RFC 6238, abort immediately before asking the mauth
+	 * API server, if the token is valid. */
+	for (const char *p = otp_token; *p; p++)
+		if (!isdigit(*p)) {
+			pam_ret = PAM_AUTH_ERR;
+			goto ret_pam_sm_login;
+		}
 
 
 	pam_ret = PAM_IGNORE;
