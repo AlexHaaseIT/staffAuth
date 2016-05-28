@@ -29,10 +29,17 @@
 #include <ctype.h>
 #include <stddef.h>
 
-#include <mauth.h>
-#include <security/pam_appl.h>    // pam_get_user (OSX only)
+#include <mauth.h> // mauth interface
+
+/* The PAM implementations in Linux and OSX provide the same interfaces, but the
+ * header files are different. */
+#ifdef __APPLE__
+#include <security/pam_modules.h>
+#include <security/pam_appl.h> // pam_get_user, pam_get_authtok
+#else
 #include <security/pam_ext.h>     // pam_get_authtok
 #include <security/pam_modules.h> // pam_get_user
+#endif
 
 
 /** \brief Authenticate mauth users with one time passwords.
