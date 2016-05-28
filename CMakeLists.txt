@@ -50,6 +50,7 @@ set(CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/externals/useLATEX"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-sanitizers/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-codecov/cmake"
+	"${CMAKE_SOURCE_DIR}/externals/CMake-CChelper/cmake"
 	${CMAKE_MODULE_PATH})
 
 # enable code coverage
