@@ -22,7 +22,8 @@
 
 #include "mauth.h"
 
-#include <stddef.h>
+#include <assert.h> // assert
+#include <stddef.h> // NULL
 
 
 /** \brief Initialize \ref mauth handle \p mh.
@@ -39,5 +40,9 @@
 void
 mauth_init(mauth *mh)
 {
+	/* Assert required arguments. */
+	assert(mh);
+
+
 	mh->server = NULL;
 }

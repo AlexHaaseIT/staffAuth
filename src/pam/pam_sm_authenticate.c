@@ -20,6 +20,7 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
+#include <assert.h> // assert
 #include <stddef.h> // NULL
 #include <stdlib.h> // getenv
 
@@ -63,6 +64,10 @@
 PAM_EXTERN int
 pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 {
+	/* Assert required arguments. */
+	assert(pamh);
+
+
 	int pam_ret;
 
 

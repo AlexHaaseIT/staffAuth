@@ -31,7 +31,7 @@
 #include <security/pam_modules.h>
 #include <security/pam_appl.h>
 #else
-#include <security/pam_modules.h> // pam_get_user
+#include <security/pam_modules.h>
 #endif
 
 

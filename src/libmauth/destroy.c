@@ -22,7 +22,8 @@
 
 #include "mauth.h"
 
-#include <stdlib.h>
+#include <assert.h> // assert
+#include <stdlib.h> // free
 
 
 /** \brief Destroy \ref mauth handle \p mh.
@@ -40,5 +41,9 @@
 void
 mauth_destroy(mauth *mh)
 {
+	/* Assert required arguments. */
+	assert(mh);
+
+
 	free(mh->server);
 }

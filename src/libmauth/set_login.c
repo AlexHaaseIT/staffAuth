@@ -60,6 +60,7 @@ login_config_file(char **dest, const char *login)
 	 * failed. If no login was set in an API function, previous called commands
 	 * should have failed already. If they didn't, this is an errornous
 	 * behavíour and we should fail here. */
+	assert(dest);
 	assert(login);
 
 
@@ -105,6 +106,11 @@ login_config_file(char **dest, const char *login)
 mauth_status
 mauth_set_login(mauth *mh, const char *login)
 {
+	/* Assert required arguments. */
+	assert(mh);
+	assert(login);
+
+
 	mauth_status ret;
 
 	/* Get config file for login. If the user is not handled by mauth or there
