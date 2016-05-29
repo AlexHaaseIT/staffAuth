@@ -20,23 +20,39 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-/* This header file is for internal functions, which should not be used public.
- * Functions defined in this header are non-stable and may change in future
- * releases! */
+#include "mauth-internal.h"
 
-#ifndef MAUTH_INTERNAL_H
-#define MAUTH_INTERNAL_H
-
-
-#include "mauth.h"
+#include <assert.h> // assert
+#include <stddef.h> // NULL
+#include <stdlib.h> // malloc
+#include <string.h> // strdup
 
 
-char *mauth_api_url(mauth *mh, const char *target);
-mauth_status mauth_api_request(char **dest, const char *url,
-                               const char *payload);
+/** \brief Append SSH key to \ref mauth_keylist \p list.
+ *
+ *
+ * \param list Pointer to current list.
+ * \param key SSH public key.
+ * \param hash Public key hash in SHA256 format.
+ *
+ * \return Pointer to new list head or NULL on any failure.
+ */
+mauth_keylist *
+mauth_keylist_add(mauth_keylist *list, const char *key, const char *hash)
+{
+	/* Assert required arguments. */
+	assert(key);
+	assert(hash);
 
-mauth_keylist *mauth_keylist_add(mauth_keylist *list, const char *key,
-                                 const char *hash);
 
+	/* Allocate memory for new list head. */
+	mauth_keylist *n = malloc(sizeof(mauth_keylist));
+	if (n == NULL)
+		return NULL;
 
-#endif
+	n->key = strdup(key);
+	n->hash = strdup(hash);
+	n->next = list;
+
+	return n;
+}

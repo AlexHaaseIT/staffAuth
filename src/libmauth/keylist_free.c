@@ -20,23 +20,35 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-/* This header file is for internal functions, which should not be used public.
- * Functions defined in this header are non-stable and may change in future
- * releases! */
+#include "mauth-internal.h"
 
-#ifndef MAUTH_INTERNAL_H
-#define MAUTH_INTERNAL_H
+#include <stddef.h> // NULL
+#include <stdlib.h> // free
 
 
-#include "mauth.h"
+/** \brief Free \ref mauth_keylist \p list.
+ *
+ *
+ * \param list Pointer to current list.
+ * \param key SSH public key.
+ * \param hash Public key hash in SHA256 format.
+ */
+void
+mauth_keylist_free(mauth_keylist *list)
+{
+	if (list == NULL)
+		return;
 
 
-char *mauth_api_url(mauth *mh, const char *target);
-mauth_status mauth_api_request(char **dest, const char *url,
-                               const char *payload);
+	/* Iterate through list and free all items. */
+	mauth_keylist *iter = list, *next;
+	while (iter) {
+		next = iter->next;
 
-mauth_keylist *mauth_keylist_add(mauth_keylist *list, const char *key,
-                                 const char *hash);
+		free(iter->key);
+		free(iter->hash);
+		free(iter);
 
-
-#endif
+		iter = next;
+	}
+}

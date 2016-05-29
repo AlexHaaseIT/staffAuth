@@ -39,6 +39,16 @@ typedef struct mauth
 } mauth;
 
 
+/** \brief Linked list to store SSH keys.
+ */
+typedef struct mauth_keylist
+{
+	char *key;                  //< ssh key
+	char *hash;                 //< SHA256 hash of the key.
+	struct mauth_keylist *next; //< Pointer to next key.
+} mauth_keylist;
+
+
 /** \brief Return statuses of mauth.
  */
 typedef enum mauth_status {
@@ -54,6 +64,9 @@ void mauth_init(mauth *mh);
 void mauth_destroy(mauth *mauth);
 
 mauth_status mauth_set_login(mauth *mh, const char *login);
+
+mauth_status mauth_get_keys(mauth *mh, mauth_keylist **list);
+void mauth_keylist_free(mauth_keylist *keylist);
 
 mauth_status mauth_verify_otp(mauth *mh, const char *token, const char *keyid);
 

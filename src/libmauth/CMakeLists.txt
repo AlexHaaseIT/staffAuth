@@ -41,13 +41,16 @@ add_library(mauth SHARED
 	init.c
 	destroy.c
 
+	keylist_free.c
 	set_login.c
 
+	get_keys.c
 	verify_otp.c
 
 	api_url.c
 	api_request.c
 	memstream.c
+	keylist_add.c
 )
 add_coverage(mauth)
 add_sanitizers(mauth)
