@@ -46,11 +46,12 @@
  * \return MAUTH_ERR_IO Network is unavailable.
  */
 mauth_status
-mauth_verify_otp(mauth *mh, const char *token)
+mauth_verify_otp(mauth *mh, const char *token, const char *keyid)
 {
 	/* Assert parameters. mh and token MUST NOT be NULL. */
 	assert(mh);
 	assert(token);
+	assert(keyid);
 
 
 	mauth_status ret = MAUTH_ERR;
@@ -71,7 +72,7 @@ mauth_verify_otp(mauth *mh, const char *token)
 	 * must contain the keyid and token properties. If the request payload could
 	 * not be generated, abort the function and mark it as internal error. */
 	json_object *pjobj = json_object_new_object();
-	json_object_object_add(pjobj, "keyid", json_object_new_string("1"));
+	json_object_object_add(pjobj, "keyid", json_object_new_string(keyid));
 	json_object_object_add(pjobj, "token", json_object_new_string(token));
 
 	const char *payload =

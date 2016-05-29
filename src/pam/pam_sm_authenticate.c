@@ -20,7 +20,8 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include <stddef.h>
+#include <stddef.h> // NULL
+#include <stdlib.h> // getenv
 
 #include <mauth.h> // mauth interface
 
@@ -91,6 +92,16 @@ pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	}
 
 
+	/* Try to get the keyid used for verification. It should be stored as
+	 * SSH_AUTH_KEY variable in the users' environment. If the variable is not
+	 * set, we can abort here. */
+	const char *keyid;
+	if ((keyid = getenv("SSH_AUTH_KEY")) == NULL) {
+		pam_ret = PAM_AUTH_ERR;
+		goto ret_pam_sm_authenticate;
+	}
+
+
 	/* Ask the user for the one time password. */
 	const char *otp_token;
 	if ((pam_ret = pam_get_authtok(pamh, PAM_AUTHTOK, &otp_token,
@@ -98,7 +109,7 @@ pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 		goto ret_pam_sm_authenticate;
 
 	/* Validate the one time password via the mauth API. */
-	switch (mauth_verify_otp(&mh, otp_token)) {
+	switch (mauth_verify_otp(&mh, otp_token, keyid)) {
 		case MAUTH_SUCCESS: pam_ret = PAM_SUCCESS; break;
 
 		case MAUTH_ERR_IO: pam_ret = PAM_AUTHINFO_UNAVAIL; break;

@@ -55,7 +55,7 @@ void mauth_destroy(mauth *mauth);
 
 mauth_status mauth_set_login(mauth *mh, const char *login);
 
-mauth_status mauth_verify_otp(mauth *mh, const char *token);
+mauth_status mauth_verify_otp(mauth *mh, const char *token, const char *keyid);
 
 
 #endif

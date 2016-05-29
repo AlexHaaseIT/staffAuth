@@ -89,6 +89,9 @@ main(int argc, char **argv)
 		json_object *iter, *buff;
 		for (i = 0; i < n; i++) {
 			iter = json_object_array_get_idx(jobj, i);
+			if (json_object_object_get_ex(iter, "id", &buff))
+				printf("environment=\"SSH_AUTH_KEY=%s\" ",
+				       json_object_get_string(buff));
 			if (json_object_object_get_ex(iter, "key", &buff))
 				printf("%s\n", json_object_get_string(buff));
 		}
