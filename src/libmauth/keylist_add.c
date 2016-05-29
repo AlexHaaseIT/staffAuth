@@ -37,7 +37,7 @@
  *
  * \return Pointer to new list head or NULL on any failure.
  */
-mauth_keylist *
+MAUTH_INTERNAL mauth_keylist *
 mauth_keylist_add(mauth_keylist *list, const char *key, const char *hash)
 {
 	/* Assert required arguments. */

@@ -39,7 +39,7 @@
  * \note The allocated data will not be freed by this function. The calling
  *  function is responsible to free the memory.
  */
-char *
+MAUTH_INTERNAL char *
 mauth_api_url(mauth *mh, const char *endpoint)
 {
 	/* Check all variables, if they are valid. In addition to the function

@@ -51,7 +51,7 @@
  * \note The allocated data will not be freed by this function. The user is
  *  responsible to free the memory.
  */
-mauth_status
+MAUTH_INTERNAL mauth_status
 mauth_api_request(char **dest, const char *url, const char *payload)
 {
 	/* Check all function parameters, if they are valid. */

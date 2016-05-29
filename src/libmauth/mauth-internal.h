@@ -31,6 +31,14 @@
 #include "mauth.h"
 
 
+/** \brief Mark function as internal.
+ *
+ * \details This macro will be used to mark functions as internal functions,
+ *  which will be hidden for global exports.
+ */
+#define MAUTH_INTERNAL __attribute__((visibility("hidden")))
+
+
 char *mauth_api_url(mauth *mh, const char *target);
 mauth_status mauth_api_request(char **dest, const char *url,
                                const char *payload);
