@@ -22,11 +22,13 @@
 
 #include "keys.h"
 
-#include <stdio.h>  // fprintf, open_memstream
+#include <stdio.h>  // fprintf
 #include <stdlib.h> // EXIT_ macros, free
 
 #include <json-c/json.h> // JSON-C interface
 #include <mauth.h>       // mauth interface
+
+#include <mauth-internal.h> // mauth internal interface
 
 #include "config.h"
 
@@ -54,11 +56,24 @@ main(int argc, char **argv)
 			fprintf(stderr,
 			        "Error while reading configuration for login '%s'.\n",
 			        config.login);
+			mauth_destroy(&mh);
 			return EXIT_FAILURE;
 		}
 	}
-	char *data = mauth_keys_request(mh.server);
-	mauth_destroy(&mh);
+
+	char *url = mauth_api_url(&mh, "keys");
+	if (url == NULL) {
+		fprintf(stderr, "Could not generate API endpoint URL.\n");
+		mauth_destroy(&mh);
+		return EXIT_FAILURE;
+	}
+
+	char *data;
+	if ((stat = mauth_api_request(&data, url)) != MAUTH_SUCCESS) {
+		fprintf(stderr, "Could not get API data.\n");
+		mauth_destroy(&mh);
+		return EXIT_FAILURE;
+	}
 
 	if (data != NULL) {
 		json_object *jobj = json_tokener_parse(data);
@@ -85,6 +100,7 @@ main(int argc, char **argv)
 	}
 
 	free(data);
+	mauth_destroy(&mh);
 
 	return ret;
 }

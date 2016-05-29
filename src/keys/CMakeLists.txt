@@ -20,12 +20,10 @@
 #
 
 find_package(Sanitizers)
-find_package(CURL REQUIRED)
 find_package(JSON-C REQUIRED)
 
 
 include_directories(
-	${CURL_INCLUDE_DIRS}
 	${JSON-C_INCLUDE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 	../libmauth
@@ -33,13 +31,10 @@ include_directories(
 
 add_executable(mauth-keys
 	config_cmdargs.c
-	request.c
 	keys.c
-	memstream.c
 )
 
 target_link_libraries(mauth-keys
-	${CURL_LIBRARIES}
 	${JSON-C_LIBRARY}
 	mauth
 )

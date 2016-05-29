@@ -20,6 +20,7 @@
 #
 
 find_package(Sanitizers)
+find_package(CURL REQUIRED)
 find_package(Libconfig REQUIRED)
 
 
@@ -28,17 +29,25 @@ configure_file(cmake-config.h.in cmake-config.h)
 
 
 # Add libmauth
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${LIBCONFIG_INCLUDE_DIR})
+include_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CURL_INCLUDE_DIRS}
+	${LIBCONFIG_INCLUDE_DIR}
+)
 
 add_library(mauth SHARED
 	init.c
 	destroy.c
 
 	set_login.c
+
+	api_url.c
+	api_request.c
+	memstream.c
 )
 add_coverage(mauth)
 add_sanitizers(mauth)
 
-target_link_libraries(mauth ${LIBCONFIG_LIBRARY})
+target_link_libraries(mauth ${CURL_LIBRARIES} ${LIBCONFIG_LIBRARY})
 
 install(TARGETS mauth LIBRARY DESTINATION lib)
