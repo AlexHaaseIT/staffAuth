@@ -97,6 +97,7 @@ login_config_file(char **dest, const char *login)
  *  used to search configuration files.
  *
  *
+ * \param mh \ref mauth handle.
  * \param login Login to be used for mauth.
  *
  * \return This function returns

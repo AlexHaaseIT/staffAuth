@@ -20,7 +20,7 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#include "mauth.h"
+#include "mauth-internal.h"
 
 #include <assert.h> // assert
 
@@ -40,7 +40,10 @@
 /** \brief Make an API request for \p url.
  *
  *
+ * \param dest Pointer to a char pointer.
  * \param url API request URL.
+ * \param payload JSON encoded payload. Request will be send as POST, if \p
+ *  payload is not NULL.
  *
  * \return MAUTH_SUCCESS The request successed.
  * \return MAUTH_FAILURE An error occured.
@@ -49,7 +52,7 @@
  *  responsible to free the memory.
  */
 mauth_status
-mauth_api_request(char **dest, const char *url)
+mauth_api_request(char **dest, const char *url, const char *payload)
 {
 	/* Check all function parameters, if they are valid. */
 	assert(dest);
@@ -65,6 +68,27 @@ mauth_api_request(char **dest, const char *url)
 
 	if ((ret = curl_easy_setopt(curl, CURLOPT_URL, url)) != CURLE_OK)
 		goto curl_cleanup;
+
+
+	/* If payload is not NULL, set payload as POST data to be send. */
+	if (payload != NULL) {
+		/* Change the HTTP query method to POST and the content type header to
+		 * application/json. payload will be set as POST data. */
+		if ((ret = curl_easy_setopt(curl, CURLOPT_POST, 1)) != CURLE_OK)
+			goto curl_cleanup;
+
+		struct curl_slist *header = NULL;
+		if ((header = curl_slist_append(
+		         header, "Content-Type: application/json")) == NULL)
+			goto curl_cleanup;
+		if ((ret = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header)) !=
+		    CURLE_OK)
+			goto curl_cleanup;
+
+		if ((ret = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload)) !=
+		    CURLE_OK)
+			goto curl_cleanup;
+	}
 
 
 	/* Open a new memstream to use it with cURL. The memstream will allocate new

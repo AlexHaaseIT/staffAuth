@@ -32,7 +32,8 @@
 
 
 char *mauth_api_url(mauth *mh, const char *target);
-mauth_status mauth_api_request(char **dest, const char *url);
+mauth_status mauth_api_request(char **dest, const char *url,
+                               const char *payload);
 
 
 #endif

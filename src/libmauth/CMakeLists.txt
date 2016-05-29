@@ -21,6 +21,7 @@
 
 find_package(Sanitizers)
 find_package(CURL REQUIRED)
+find_package(JSON-C REQUIRED)
 find_package(Libconfig REQUIRED)
 
 
@@ -32,6 +33,7 @@ configure_file(cmake-config.h.in cmake-config.h)
 include_directories(
 	${CMAKE_CURRENT_BINARY_DIR}
 	${CURL_INCLUDE_DIRS}
+	${JSON-C_INCLUDE_DIR}
 	${LIBCONFIG_INCLUDE_DIR}
 )
 
@@ -41,6 +43,8 @@ add_library(mauth SHARED
 
 	set_login.c
 
+	verify_otp.c
+
 	api_url.c
 	api_request.c
 	memstream.c
@@ -48,6 +52,10 @@ add_library(mauth SHARED
 add_coverage(mauth)
 add_sanitizers(mauth)
 
-target_link_libraries(mauth ${CURL_LIBRARIES} ${LIBCONFIG_LIBRARY})
+target_link_libraries(mauth
+	${CURL_LIBRARIES}
+	${JSON-C_LIBRARY}
+	${LIBCONFIG_LIBRARY}
+)
 
 install(TARGETS mauth LIBRARY DESTINATION lib)

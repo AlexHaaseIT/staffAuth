@@ -20,16 +20,14 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
+#include <stddef.h>
+
+#include <mauth.h> // mauth interface
+
 /* To be correctly initialized, PAM_SM_AUTH must be #define'd prior to including
  * <security/pam_modules.h>. This will ensure that the prototypes for static
  * modules are properly declared. */
 #define PAM_SM_AUTH
-
-
-#include <ctype.h>
-#include <stddef.h>
-
-#include <mauth.h> // mauth interface
 
 /* The PAM implementations in Linux and OSX provide the same interfaces, but the
  * header files are different. */
@@ -65,11 +63,10 @@ PAM_EXTERN int
 pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 {
 	int pam_ret;
-	mauth mh;
-	mauth_status mauth_ret;
 
 
 	/* Initialize mauth handle. */
+	mauth mh;
 	mauth_init(&mh);
 
 
@@ -78,38 +75,39 @@ pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	 * return values, to indicate the specific error. */
 	const char *login;
 	if ((pam_ret = pam_get_user(pamh, &login, NULL)) != PAM_SUCCESS)
-		goto ret_pam_sm_login;
+		goto ret_pam_sm_authenticate;
 
-	if ((mauth_ret = mauth_set_login(&mh, login)) != MAUTH_SUCCESS) {
-		if (mauth_ret == MAUTH_USER_UNKNOWN)
+	switch (mauth_set_login(&mh, login)) {
+		case MAUTH_SUCCESS: break;
+
+		case MAUTH_USER_UNKNOWN:
 			pam_ret = PAM_USER_UNKNOWN;
-		else if (mauth_ret == MAUTH_ERR_IO)
-			pam_ret = PAM_AUTHINFO_UNAVAIL;
+			goto ret_pam_sm_authenticate;
 
-		goto ret_pam_sm_login;
+		default:
+		case MAUTH_ERR_IO:
+			pam_ret = PAM_AUTHINFO_UNAVAIL;
+			goto ret_pam_sm_authenticate;
 	}
 
 
 	/* Ask the user for the one time password. */
 	const char *otp_token;
 	if ((pam_ret = pam_get_authtok(pamh, PAM_AUTHTOK, &otp_token,
-	                               "Verification code:")) != PAM_SUCCESS)
-		goto ret_pam_sm_login;
+	                               "Verification code: ")) != PAM_SUCCESS)
+		goto ret_pam_sm_authenticate;
 
-	/* If the entered token does not match the requirements for one time pass-
-	 * words as defined in RFC 6238, abort immediately before asking the mauth
-	 * API server, if the token is valid. */
-	for (const char *p = otp_token; *p; p++)
-		if (!isdigit(*p)) {
-			pam_ret = PAM_AUTH_ERR;
-			goto ret_pam_sm_login;
-		}
+	/* Validate the one time password via the mauth API. */
+	switch (mauth_verify_otp(&mh, otp_token)) {
+		case MAUTH_SUCCESS: pam_ret = PAM_SUCCESS; break;
 
-
-	pam_ret = PAM_IGNORE;
+		case MAUTH_ERR_IO: pam_ret = PAM_AUTHINFO_UNAVAIL; break;
+		default: pam_ret = PAM_AUTH_ERR; break;
+	}
 
 
-ret_pam_sm_login:
+ret_pam_sm_authenticate:
+	/* Destroy the mauth handle. */
 	mauth_destroy(&mh);
 
 	return pam_ret;

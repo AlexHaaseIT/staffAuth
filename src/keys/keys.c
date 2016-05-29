@@ -69,7 +69,7 @@ main(int argc, char **argv)
 	}
 
 	char *data;
-	if ((stat = mauth_api_request(&data, url)) != MAUTH_SUCCESS) {
+	if ((stat = mauth_api_request(&data, url, NULL)) != MAUTH_SUCCESS) {
 		fprintf(stderr, "Could not get API data.\n");
 		mauth_destroy(&mh);
 		return EXIT_FAILURE;

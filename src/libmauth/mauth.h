@@ -42,9 +42,11 @@ typedef struct mauth
 /** \brief Return statuses of mauth.
  */
 typedef enum mauth_status {
-	MAUTH_SUCCESS,      //< Everything went fine
+	MAUTH_SUCCESS,      //< Everything went fine.
+	MAUTH_FAILURE,      //< An error happened.
 	MAUTH_USER_UNKNOWN, //< The user is not handled by mauth.
-	MAUTH_ERR_IO        //< The configuration file could not be read.
+	MAUTH_ERR,          //< An error happend inside the function.
+	MAUTH_ERR_IO        //< File or network IO error.
 } mauth_status;
 
 
@@ -52,6 +54,8 @@ void mauth_init(mauth *mh);
 void mauth_destroy(mauth *mauth);
 
 mauth_status mauth_set_login(mauth *mh, const char *login);
+
+mauth_status mauth_verify_otp(mauth *mh, const char *token);
 
 
 #endif
