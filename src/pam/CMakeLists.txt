@@ -26,7 +26,8 @@ find_package(PAM REQUIRED)
 include_directories(${PAM_INCLUDE_DIR} ../libmauth)
 
 add_library(mauth-pam SHARED
-	mauth_pam.c
+	pam_sm_authenticate.c
+	pam_sm_setcred.c
 )
 
 target_link_libraries(mauth-pam pam mauth)
