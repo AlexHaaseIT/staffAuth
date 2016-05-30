@@ -27,6 +27,7 @@ matrix:
         - brew outdated cmake || brew upgrade cmake
         - brew outdated json-c || brew upgrade json-c
         - brew install libconfig
+        - brew install doxygen
 
 addons:
   apt:
@@ -38,6 +39,7 @@ addons:
       - libjson-c-dev
       - libconfig-dev
       - libpam0g-dev
+      - doxygen
 
 
 script:
