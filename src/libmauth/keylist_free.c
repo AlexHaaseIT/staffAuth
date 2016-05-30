@@ -30,8 +30,6 @@
  *
  *
  * \param list Pointer to current list.
- * \param key SSH public key.
- * \param hash Public key hash in SHA256 format.
  */
 void
 mauth_keylist_free(mauth_keylist *list)

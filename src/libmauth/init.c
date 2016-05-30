@@ -28,13 +28,13 @@
 
 /** \brief Initialize \ref mauth handle \p mh.
  *
- * \details This function will initialize the \ref mauth handle \mh to its
+ * \details This function will initialize the \ref mauth handle \p mh to its
  *  default values.
  *
  *
  * \param mh \ref mauth handle.
  *
- * \info \ref mauth_destroy must be called for each initialized \ref mauth
+ * \note \ref mauth_destroy must be called for each initialized \ref mauth
  *  handle after usage.
  */
 void

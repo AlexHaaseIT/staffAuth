@@ -54,12 +54,16 @@
  * \param flags PAM flags
  * \param argc Number of additional PAM parameters from the config file. Will be
  *  ignored by this module.
- * \param argv. Additional PAM parameters from the config file. Will be ignored
+ * \param argv Additional PAM parameters from the config file. Will be ignored
  *  by this module.
  *
- * \return If the user is handled by mauth and the one time password is valid,
- *  PAM_SUCCESS will be returned. PAM_IGNORE will be returned, if the user is
- *  not handled by mauth. See PAM documentation for other error return values.
+ * \return PAM_SUCCESS The user is handled by mauth and the one time password is
+ *  valid.
+ * \return PAM_AUTH_ERR The user is handled by mauth and the one time password
+ *  is not valid.
+ * \return PAM_USER_UNKNOWN The user is not handled by mauth.
+ * \return PAM_AUTHINFO_UNAVAIL Can't connect to the mauth API server.
+ * \return For other return values see pam_get_user.
  */
 PAM_EXTERN int
 pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv)

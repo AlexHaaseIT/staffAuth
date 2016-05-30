@@ -45,11 +45,15 @@
  * \param payload JSON encoded payload. Request will be send as POST, if \p
  *  payload is not NULL.
  *
- * \return MAUTH_SUCCESS The request successed.
- * \return MAUTH_FAILURE An error occured.
+ * \return \ref MAUTH_SUCCESS The request successed.
+ * \return \ref MAUTH_FAILURE An error occured.
+ *
  *
  * \note The allocated data will not be freed by this function. The user is
  *  responsible to free the memory.
+ *
+ * \warning This is an internal function and must not be used outside of
+ *  libmauth.
  */
 MAUTH_INTERNAL mauth_status
 mauth_api_request(char **dest, const char *url, const char *payload)

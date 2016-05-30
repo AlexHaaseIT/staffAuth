@@ -28,14 +28,14 @@
 
 /** \brief Destroy \ref mauth handle \p mh.
  *
- * \details This function will destroy the \ref mauth handle \mh. Memory
+ * \details This function will destroy the \ref mauth handle \p mh. Memory
  *  allocated by mauth functions will be freed. The \ref mauth struct \p mh will
  *  NOT be freed, because in most times it was not dynamic allocated.
  *
  *
  * \param mh \ref mauth handle.
  *
- * \info \ref mauth_init must be called for each \ref mauth handle before
+ * \note \ref mauth_init must be called for each \ref mauth handle before
  *  calling \ref mauth_destroy.
  */
 void

@@ -36,8 +36,12 @@
  * \return On success this function will return a pointer to a new allocated
  *  array of char containing the URL. On any failure NULL will be returned.
  *
+ *
  * \note The allocated data will not be freed by this function. The calling
  *  function is responsible to free the memory.
+ *
+ * \warning This is an internal function and must not be used outside of
+ *  libmauth.
  */
 MAUTH_INTERNAL char *
 mauth_api_url(mauth *mh, const char *endpoint)

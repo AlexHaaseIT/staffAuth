@@ -35,7 +35,7 @@
  */
 typedef struct mauth
 {
-	char *server;
+	char *server; ///< URL of mauth API server.
 } mauth;
 
 
@@ -43,20 +43,20 @@ typedef struct mauth
  */
 typedef struct mauth_keylist
 {
-	char *key;                  //< ssh key
-	char *hash;                 //< SHA256 hash of the key.
-	struct mauth_keylist *next; //< Pointer to next key.
+	char *key;                  ///< Public ssh key.
+	char *hash;                 ///< SHA256 hash of the key.
+	struct mauth_keylist *next; ///< Pointer to next key.
 } mauth_keylist;
 
 
 /** \brief Return statuses of mauth.
  */
 typedef enum mauth_status {
-	MAUTH_SUCCESS,      //< Everything went fine.
-	MAUTH_FAILURE,      //< An error happened.
-	MAUTH_USER_UNKNOWN, //< The user is not handled by mauth.
-	MAUTH_ERR,          //< An error happend inside the function.
-	MAUTH_ERR_IO        //< File or network IO error.
+	MAUTH_SUCCESS,      ///< Everything went fine.
+	MAUTH_FAILURE,      ///< An error happened.
+	MAUTH_USER_UNKNOWN, ///< The user is not handled by mauth.
+	MAUTH_ERR,          ///< An error happend inside the function.
+	MAUTH_ERR_IO        ///< File or network IO error.
 } mauth_status;
 
 

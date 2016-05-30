@@ -34,24 +34,34 @@
 #include "cmake-config.h" // Macros defined at configuration time
 
 
+/** \brief Directory in MAUTH_CONFIG_DIR containing the user configuration
+ *  files.
+ */
 #define MAUTH_USER_CONF_DIR "users.d"
 
 
-/** \brief Get configuration filename for \p login.
+/** \brief Get configuration file name for \p login.
  *
  * \details This function will check for the login's configuration file. If it
  *  is found and can be read by the current process, this function will allocate
- *  a new buffer to store the filename in. If the file is not present or can't
+ *  a new buffer to store the file name in. If the file is not present or can't
  *  be accessed, the application will be exited immediately.
  *
  *
- * \param config Current configuration.
+ * \param dest Destination pointer to store file name in.
+ * \param login Login to be used.
  *
- * \return If the configuration file for login is present and can be accessed,
- *  a pointer to the new allocated buffer will be returned. In any other case
- *  this function will exit the application.
+ * \return \ref MAUTH_SUCCESS The configuration file for login is present and
+ *  can be accessed.
+ * \return \ref MAUTH_USER_UNKNOWN The user is not handled by mauth.
+ * \return \ref MAUTH_ERR_IO The user is handled by mauth, but the configuration
+ *  file can't be accessed.
  *
- * \info The new allocated buffer MUST be freed by the caller.
+ *
+ * \note The new allocated buffer \b must be freed by the caller.
+ *
+ * \warning This is an internal function and must not be used outside of
+ *  libmauth.
  */
 static mauth_status
 login_config_file(char **dest, const char *login)
@@ -101,7 +111,10 @@ login_config_file(char **dest, const char *login)
  * \param mh \ref mauth handle.
  * \param login Login to be used for mauth.
  *
- * \return This function returns
+ * \return \ref MAUTH_SUCCESS \p login was set successfully.
+ * \return \ref MAUTH_USER_UNKNOWN The user is not handled by mauth.
+ * \return \ref MAUTH_ERR_IO The user is handled by mauth, but the configuration
+ *  file can't be accessed.
  */
 mauth_status
 mauth_set_login(mauth *mh, const char *login)

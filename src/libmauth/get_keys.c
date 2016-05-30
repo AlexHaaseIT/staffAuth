@@ -35,8 +35,11 @@
  *
  *
  * \param mh \ref mauth handle.
+ * \param list Pointer to \ref mauth_keylist pointer.
  *
- * \return
+ * \return \ref MAUTH_SUCCESS \p list contains all found keys.
+ * \return \ref MAUTH_ERR An internal error happened.
+ * \return \ref MAUTH_ERR_IO Error retrieving keys from mauth API server.
  */
 mauth_status
 mauth_get_keys(mauth *mh, mauth_keylist **list)

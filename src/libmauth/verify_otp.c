@@ -33,17 +33,19 @@
 
 /** \brief Verify one time password \p token via the mauth API.
  *
- * \details Verify the one time password \p token via the mauth API. This
- *  function is used to authenticate the user additionaly to his SSH key.
+ * \details This function is used to authenticate the user additionally to his
+ *  SSH key with a verification code (a one time password). The code will not be
+ *  verified at the local machine, but by the mauth API.
  *
  *
  * \param mh \ref mauth handle.
  * \param token One time password to verify.
+ * \param keyid Key ID used for SSH authentication.
  *
- * \return MAUTH_SUCCESS \p token is valid.
- * \return MAUTH_FAILURE \p token is invalid.
- * \return MAUTH_ERR An error happend inside the function.
- * \return MAUTH_ERR_IO Network is unavailable.
+ * \return \ref MAUTH_SUCCESS \p token is valid.
+ * \return \ref MAUTH_FAILURE \p token is invalid.
+ * \return \ref MAUTH_ERR An error happend inside the function.
+ * \return \ref MAUTH_ERR_IO Network is unavailable.
  */
 mauth_status
 mauth_verify_otp(mauth *mh, const char *token, const char *keyid)

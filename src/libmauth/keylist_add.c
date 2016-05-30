@@ -35,7 +35,14 @@
  * \param key SSH public key.
  * \param hash Public key hash in SHA256 format.
  *
- * \return Pointer to new list head or NULL on any failure.
+ * \return Pointer to new \ref mauth_keylist head.
+ * \return NULL An error occured.
+ *
+ *
+ * \note The new allocated list \b must be freed by the caller.
+ *
+ * \warning This is an internal function and must not be used outside of
+ *  libmauth.
  */
 MAUTH_INTERNAL mauth_keylist *
 mauth_keylist_add(mauth_keylist *list, const char *key, const char *hash)

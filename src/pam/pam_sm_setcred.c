@@ -45,7 +45,7 @@
  * \param flags PAM flags
  * \param argc Number of additional PAM parameters from the config file. Will be
  *  ignored by this module.
- * \param argv. Additional PAM parameters from the config file. Will be ignored
+ * \param argv Additional PAM parameters from the config file. Will be ignored
  *  by this module.
  *
  * \return PAM_IGNORE Will be returned for every request.
