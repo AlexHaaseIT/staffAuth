@@ -24,9 +24,6 @@
 #define MAUTH_H
 
 
-#include <stdbool.h>
-
-
 /** \brief Internal status and storage of mauth library.
  *
  * \details This struct stores internal data and status of the mauth instance.

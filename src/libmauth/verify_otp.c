@@ -56,9 +56,6 @@ mauth_verify_otp(mauth *mh, const char *token, const char *keyid)
 	assert(keyid);
 
 
-	mauth_status ret = MAUTH_ERR;
-
-
 	/* If the entered token does not match the requirements for one time pass-
 	 * words as defined in RFC 6238, or if token is an empty string, abort
 	 * immediately before asking the mauth API server, if the token is valid. */
@@ -112,12 +109,11 @@ mauth_verify_otp(mauth *mh, const char *token, const char *keyid)
 			 * to set ret to MAUTH_ERR_IO. */
 		}
 
-		case MAUTH_FAILURE: ret = MAUTH_ERR_IO; break;
+		case MAUTH_FAILURE: return MAUTH_ERR_IO;
 		default: break;
 	}
 
 
 err_mauth_verify_otp:
-	json_object_put(pjobj);
 	return MAUTH_ERR;
 }

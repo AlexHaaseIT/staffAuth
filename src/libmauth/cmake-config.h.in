@@ -20,8 +20,8 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_CMAKE_CONFIG_H
-#define MAUTH_KEYS_CMAKE_CONFIG_H
+#ifndef MAUTH_CMAKE_CONFIG_H
+#define MAUTH_CMAKE_CONFIG_H
 
 
 #define MAUTH_CONFIG_DIR "@MAUTH_CONFIG_DIR@"
