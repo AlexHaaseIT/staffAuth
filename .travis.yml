@@ -16,6 +16,8 @@ addons:
       - libcurl4-openssl-dev
       - libjson-c-dev
       - libconfig-dev
+      - libpam0g-dev
+      - doxygen
       - dpkg-dev
       - debhelper
       - lintian

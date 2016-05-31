@@ -59,6 +59,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mauth-internal.h"
+
 #define min(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 struct memstream
@@ -187,7 +189,7 @@ memstream_close(void *cookie)
 	return 0;
 }
 
-FILE *
+MAUTH_INTERNAL FILE *
 open_memstream(char **ptr, size_t *sizeloc)
 {
 	if (ptr && sizeloc) {

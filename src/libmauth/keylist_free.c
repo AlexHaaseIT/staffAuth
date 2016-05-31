@@ -20,11 +20,33 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_CMAKE_CONFIG_H
-#define MAUTH_KEYS_CMAKE_CONFIG_H
+#include "mauth-internal.h"
+
+#include <stddef.h> // NULL
+#include <stdlib.h> // free
 
 
-#define MAUTH_CONFIG_DIR "@MAUTH_CONFIG_DIR@"
+/** \brief Free \ref mauth_keylist \p list.
+ *
+ *
+ * \param list Pointer to current list.
+ */
+void
+mauth_keylist_free(mauth_keylist *list)
+{
+	if (list == NULL)
+		return;
 
 
-#endif
+	/* Iterate through list and free all items. */
+	mauth_keylist *iter = list, *next;
+	while (iter) {
+		next = iter->next;
+
+		free(iter->key);
+		free(iter->hash);
+		free(iter);
+
+		iter = next;
+	}
+}

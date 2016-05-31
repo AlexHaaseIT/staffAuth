@@ -20,14 +20,29 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_H
-#define MAUTH_KEYS_H
+#include "mauth.h"
+
+#include <assert.h> // assert
+#include <stddef.h> // NULL
 
 
-#include "config.h"
+/** \brief Initialize \ref mauth handle \p mh.
+ *
+ * \details This function will initialize the \ref mauth handle \p mh to its
+ *  default values.
+ *
+ *
+ * \param mh \ref mauth handle.
+ *
+ * \note \ref mauth_destroy must be called for each initialized \ref mauth
+ *  handle after usage.
+ */
+void
+mauth_init(mauth *mh)
+{
+	/* Assert required arguments. */
+	assert(mh);
 
 
-char *mauth_keys_request(const char *server);
-
-
-#endif
+	mh->server = NULL;
+}

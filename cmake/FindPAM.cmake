@@ -19,20 +19,15 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-include(CChelper)       # Enable compiler warnings.
-include(GNUInstallDirs) # Install paths.
+# This CMake module is based on the CMake tutorial on "How to find libraries"
+# for libxml2. Thus libpam does not support pkgconfig, pkgconfig will be skipped
+# in this module.
 
-find_package(Sanitizers)   # Find sanitizers
-find_package(C99 REQUIRED) # C99 support.
+find_path(PAM_INCLUDE_DIR security/pam_modules.h)
 
+find_library(PAM_LIBRARY NAMES pam libpam)
 
-# Enable C99 for all targets. We are using mixed C++ style comments for doxygen
-# and mixed declarations and code, so we need C99 to satisfy the compiler in
-# pedantic mode (enabled by CChelper above)
-add_definitions(${C99_FLAGS})
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(PAM DEFAULT_MSG PAM_LIBRARY PAM_INCLUDE_DIR)
 
-
-# recurse into subdirectories
-add_subdirectory(libmauth)
-add_subdirectory(keys)
-add_subdirectory(pam)
+mark_as_advanced(PAM_INCLUDE_DIR PAM_LIBRARY)

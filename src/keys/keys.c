@@ -22,10 +22,10 @@
 
 #include "keys.h"
 
-#include <stdio.h>  // fprintf, open_memstream
+#include <stdio.h>  // fprintf
 #include <stdlib.h> // EXIT_ macros, free
 
-#include <json-c/json.h> // JSON-C interface
+#include <mauth.h> // mauth interface
 
 #include "config.h"
 
@@ -34,41 +34,41 @@ int
 main(int argc, char **argv)
 {
 	int ret = EXIT_SUCCESS;
+	mauth mh;
+
 
 	/* Read configuration from command line and find required configuration
 	 * files. */
 	mauth_keys_config config = {0};
 	mauth_keys_parse_args(argc, argv, &config);
-	mauth_keys_parse_conffile(&config);
 
 
-	char *data = mauth_keys_request(&config);
-	if (data != NULL) {
-		json_object *jobj = json_tokener_parse(data);
-
-		enum json_type type = json_object_get_type(jobj);
-		if (type != json_type_array) {
-			fprintf(stderr, "Wrong type of root object!\n");
-			exit(EXIT_FAILURE);
+	/* Initialize mauth handle and set login. */
+	mauth_init(&mh);
+	mauth_status stat;
+	if ((stat = mauth_set_login(&mh, config.login)) != MAUTH_SUCCESS) {
+		if (stat == MAUTH_USER_UNKNOWN)
+			return EXIT_SUCCESS;
+		else {
+			fprintf(stderr,
+			        "Error while reading configuration for login '%s'.\n",
+			        config.login);
+			mauth_destroy(&mh);
+			return EXIT_FAILURE;
 		}
-
-		size_t n = json_object_array_length(jobj);
-		size_t i;
-		json_object *iter, *buff;
-		for (i = 0; i < n; i++) {
-			iter = json_object_array_get_idx(jobj, i);
-			if (json_object_object_get_ex(iter, "key", &buff))
-				printf("%s\n", json_object_get_string(buff));
-		}
-
-		json_object_put(jobj);
-	} else {
-		fprintf(stderr, "Unable to request data!\n");
-		ret = EXIT_FAILURE;
 	}
 
-	free(data);
-	free(config.server);
+
+	/* Get all SSH keys via API. */
+	mauth_keylist *list = NULL;
+	if (mauth_get_keys(&mh, &list) != MAUTH_SUCCESS) {
+	}
+
+	for (mauth_keylist *iter = list; iter; iter = iter->next)
+		printf("environment=\"SSH_AUTH_KEY=%s\" %s\n", iter->hash, iter->key);
+
+	mauth_keylist_free(list);
+	mauth_destroy(&mh);
 
 	return ret;
 }

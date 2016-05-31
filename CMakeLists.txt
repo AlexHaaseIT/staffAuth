@@ -50,10 +50,18 @@ set(CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/externals/useLATEX"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-sanitizers/cmake"
 	"${CMAKE_SOURCE_DIR}/externals/CMake-codecov/cmake"
+	"${CMAKE_SOURCE_DIR}/externals/CMake-CChelper/cmake"
 	${CMAKE_MODULE_PATH})
 
 # enable code coverage
 find_package(codecov)
+
+# set mauth version
+set(PROJECT_VERSION_MAJOR 1)
+set(PROJECT_VERSION_MINOR 2)
+set(PROJECT_VERSION_PATCH 0)
+set(PROJECT_VERSION
+	${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 
 
 #

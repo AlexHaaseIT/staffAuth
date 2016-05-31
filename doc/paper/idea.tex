@@ -23,11 +23,11 @@
 
 \section{Idea}
 
-To solve these issues, a centralized database backend should be used, so every
+To solve these issues, a centralized database back end should be used, so every
 employee is able to manage his own account with low overhead. Usually you'll
 already have such a database for your employees credentials to authenticate them
-at your companys machines, so why don't use them? These data can be accessed via
-a well defined API via HTTPS, so you can feel free to use a backend of your
+at your internal machines, so why don't use them? These data can be accessed via
+a well defined API via HTTPS, so you can feel free to use a back end of your
 choice. \\
 
 Usually you'll authenticate yourself with SSH-Keys against the target machine.
@@ -37,17 +37,18 @@ the \verb+AuthorizedKeysCommand+ is available to support fetching
 \verb+authorized_keys+ from a command. With a simple script the keys could be
 fetched from the API. \\
 
-Since there is no security benefit in seperating the
-maintenance users (since every employee needs sudo on this machine and so would
-have access to the other users data), no seperate accounts per user but a
-central maintenance account will be used. The real user can be identified via
-the used SSH key which should be logged. For privileged access (sudo) onetime
-passwords should be used as a second factor of security - integration may be
-easily managed via a PAM\footnote{\textbf{P}luggable \textbf{A}uthentication
-\textbf{M}odules} module. Thus algorithms like TOTP\footnote{Time-Based One-Time
-Password Algorithm is defined in
+Since there is no security benefit in separating the
+maintenance users (since every employee needs sudo on this machine and would
+have access to the other users' data, SSH agent sockets, etc.), no separate
+accounts per user but a central maintenance account will be used. The real user
+can be identified via the used SSH key which should be logged. For privileged
+access (sudo) one-time passwords should be used as a second factor of security -
+integration may be easily managed via a PAM\footnote{\textbf{P}luggable
+\textbf{A}uthentication \textbf{M}odules} module. Because algorithms like
+TOTP\footnote{Time-Based One-Time Password Algorithm as defined in
 \href{https://tools.ietf.org/html/rfc6238}{RFC 6238}} are symmetric, not the
-client but the credential server should check the onetime password via API. \\
+client but the credential server should validate the one-time passwords via the
+API. \\
 
 For a faster experience, a caching Proxy may be used, but must be secured via
 HTTPS. A simple proxy may be established via nginx as caching reverse proxy for

@@ -20,14 +20,31 @@
  *  2015-2016 Alexander Haase IT Services <support@alexhaase.de>
  */
 
-#ifndef MAUTH_KEYS_H
-#define MAUTH_KEYS_H
+/* This header file is for internal functions, which should not be used public.
+ * Functions defined in this header are non-stable and may change in future
+ * releases! */
+
+#ifndef MAUTH_INTERNAL_H
+#define MAUTH_INTERNAL_H
 
 
-#include "config.h"
+#include "mauth.h"
 
 
-char *mauth_keys_request(const char *server);
+/** \brief Mark function as internal.
+ *
+ * \details This macro will be used to mark functions as internal functions,
+ *  which will be hidden for global exports.
+ */
+#define MAUTH_INTERNAL __attribute__((visibility("hidden")))
+
+
+char *mauth_api_url(mauth *mh, const char *target);
+mauth_status mauth_api_request(char **dest, const char *url,
+                               const char *payload);
+
+mauth_keylist *mauth_keylist_add(mauth_keylist *list, const char *key,
+                                 const char *hash);
 
 
 #endif

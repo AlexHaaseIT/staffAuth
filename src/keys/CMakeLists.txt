@@ -19,38 +19,17 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-find_package(Sanitizers)
-find_package(CURL REQUIRED)
-find_package(JSON-C REQUIRED)
-find_package(Libconfig REQUIRED)
-
-
-# Configure files
-configure_file(cmake-config.h.in cmake-config.h)
-
-
-include_directories(
-	${CURL_INCLUDE_DIRS}
-	${JSON-C_INCLUDE_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}
-)
-
+# Add mauth-keys command.
 add_executable(mauth-keys
 	config_cmdargs.c
-	config_conffile.c
-	request.c
 	keys.c
-	memstream.c
-)
-
-target_link_libraries(mauth-keys
-	${CURL_LIBRARIES}
-	${JSON-C_LIBRARY}
-	${LIBCONFIG_LIBRARY}
 )
 
 add_coverage(mauth-keys)
 add_sanitizers(mauth-keys)
 
+include_directories(../libmauth)
 
-install(TARGETS mauth-keys DESTINATION bin)
+target_link_libraries(mauth-keys mauth)
+
+install(TARGETS mauth-keys RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
