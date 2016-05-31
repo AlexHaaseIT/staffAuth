@@ -20,24 +20,16 @@
 #
 
 find_package(Sanitizers)
-find_package(JSON-C REQUIRED)
 
 
-include_directories(
-	${JSON-C_INCLUDE_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}
-	../libmauth
-)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ../libmauth)
 
 add_executable(mauth-keys
 	config_cmdargs.c
 	keys.c
 )
 
-target_link_libraries(mauth-keys
-	${JSON-C_LIBRARY}
-	mauth
-)
+target_link_libraries(mauth-keys mauth)
 
 add_coverage(mauth-keys)
 add_sanitizers(mauth-keys)

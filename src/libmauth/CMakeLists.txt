@@ -55,7 +55,7 @@ add_library(mauth SHARED
 add_coverage(mauth)
 add_sanitizers(mauth)
 
-target_link_libraries(mauth
+target_link_libraries(mauth PRIVATE
 	${CURL_LIBRARIES}
 	${JSON-C_LIBRARY}
 	${LIBCONFIG_LIBRARY}
