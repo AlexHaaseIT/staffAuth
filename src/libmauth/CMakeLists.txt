@@ -70,4 +70,9 @@ target_link_libraries(mauth PRIVATE
 	${LIBCONFIG_LIBRARY}
 )
 
+set_target_properties(mauth PROPERTIES
+	VERSION   ${PROJECT_VERSION}
+	SOVERSION ${PROJECT_VERSION_MAJOR}
+)
+
 install(TARGETS mauth LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
