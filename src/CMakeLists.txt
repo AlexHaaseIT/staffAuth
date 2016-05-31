@@ -19,29 +19,17 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-include(CChelper) # enable compiler warnings
+include(CChelper)       # Enable compiler warnings.
+include(GNUInstallDirs) # Install paths.
+
+find_package(Sanitizers)   # Find sanitizers
+find_package(C99 REQUIRED) # C99 support.
 
 
 # Enable C99 for all targets. We are using mixed C++ style comments for doxygen
 # and mixed declarations and code, so we need C99 to satisfy the compiler in
 # pedantic mode (enabled by CChelper above)
-find_package(C99 REQUIRED)
-
 add_definitions(${C99_FLAGS})
-
-
-# Set some paths for mauth. We will use the paths defined by GNUInstallDirs. If
-# the path is not absolute, we will preprend the install prefix. This ensures
-# most compatibility with dpkg and non-dpkg installations.
-include(GNUInstallDirs)
-
-set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_SYSCONFDIR}/mauth")
-if (NOT IS_ABSOLUTE ${MAUTH_CONFIG_DIR})
-	set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_PREFIX}/${MAUTH_CONFIG_DIR}")
-endif ()
-
-message(STATUS "Predefined paths:")
-message(STATUS "  config: ${MAUTH_CONFIG_DIR}")
 
 
 # recurse into subdirectories

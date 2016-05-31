@@ -19,20 +19,17 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-find_package(Sanitizers)
-
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ../libmauth)
-
+# Add mauth-keys command.
 add_executable(mauth-keys
 	config_cmdargs.c
 	keys.c
 )
 
-target_link_libraries(mauth-keys mauth)
-
 add_coverage(mauth-keys)
 add_sanitizers(mauth-keys)
 
+include_directories(../libmauth)
 
-install(TARGETS mauth-keys DESTINATION bin)
+target_link_libraries(mauth-keys mauth)
+
+install(TARGETS mauth-keys RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

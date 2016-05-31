@@ -19,19 +19,32 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-find_package(Sanitizers)
 find_package(PAM REQUIRED)
 
 
-include_directories(${PAM_INCLUDE_DIR} ../libmauth)
-
+# Add mauth PAM module.
 add_library(mauth-pam SHARED
 	pam_sm_authenticate.c
 	pam_sm_setcred.c
 )
 
-target_link_libraries(mauth-pam pam mauth)
+add_coverage(mauth-pam)
+add_sanitizers(mauth-pam)
+
+include_directories(${PAM_INCLUDE_DIR} ../libmauth)
+
+target_link_libraries(mauth-pam mauth pam)
 
 set_target_properties(mauth-pam PROPERTIES OUTPUT_NAME "mauth" PREFIX "pam_")
 
-install(TARGETS mauth-pam DESTINATION lib/security)
+# PAM modules have the fixed install path /lib/security, /lib64/security or
+# /lib/<triplet>/security for multiarch installations. Instead of installing it
+# to the CMAKE_INSTALL_PREFIX path, we'll always install it to the original PAM
+# location.
+# To not break local builds, the CMAKE_INSTALL_PREFIX_PAM must be set explictly
+# to "/", otherwise the default CMAKE_INSTALL_PREFIX will be used.
+if (NOT CMAKE_INSTALL_PREFIX_PAM)
+	set(CMAKE_INSTALL_PREFIX_PAM "")
+endif ()
+install(TARGETS mauth-pam
+	LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX_PAM}${CMAKE_INSTALL_LIBDIR}")

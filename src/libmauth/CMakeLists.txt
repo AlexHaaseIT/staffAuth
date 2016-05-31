@@ -19,24 +19,25 @@
 #   2015-2016 Alexander Haase IT Services <support@alexhaase.de>
 #
 
-find_package(Sanitizers)
 find_package(CURL REQUIRED)
 find_package(JSON-C REQUIRED)
 find_package(Libconfig REQUIRED)
 
 
-# Configure files
+# Set some paths for mauth. We will use the paths defined by GNUInstallDirs. If
+# the path is not absolute, we will preprend the install prefix. This ensures
+# most compatibility with dpkg and non-dpkg installations.
+set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_SYSCONFDIR}/mauth")
+if (NOT IS_ABSOLUTE ${MAUTH_CONFIG_DIR})
+	set (MAUTH_CONFIG_DIR "${CMAKE_INSTALL_PREFIX}/${MAUTH_CONFIG_DIR}")
+endif ()
+
+
+# Configure files.
 configure_file(cmake-config.h.in cmake-config.h)
 
 
-# Add libmauth
-include_directories(
-	${CMAKE_CURRENT_BINARY_DIR}
-	${CURL_INCLUDE_DIRS}
-	${JSON-C_INCLUDE_DIR}
-	${LIBCONFIG_INCLUDE_DIR}
-)
-
+# Add libmauth.
 add_library(mauth SHARED
 	init.c
 	destroy.c
@@ -52,8 +53,16 @@ add_library(mauth SHARED
 	memstream.c
 	keylist_add.c
 )
+
 add_coverage(mauth)
 add_sanitizers(mauth)
+
+include_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CURL_INCLUDE_DIRS}
+	${JSON-C_INCLUDE_DIR}
+	${LIBCONFIG_INCLUDE_DIR}
+)
 
 target_link_libraries(mauth PRIVATE
 	${CURL_LIBRARIES}
@@ -61,4 +70,4 @@ target_link_libraries(mauth PRIVATE
 	${LIBCONFIG_LIBRARY}
 )
 
-install(TARGETS mauth LIBRARY DESTINATION lib)
+install(TARGETS mauth LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
