@@ -76,3 +76,4 @@ set_target_properties(mauth PROPERTIES
 )
 
 install(TARGETS mauth LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+install(FILES mauth.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
