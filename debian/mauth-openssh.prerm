@@ -16,8 +16,9 @@ case "$1" in
 	remove|deconfigure)
 		# Remove the AuthorizedKeysCommand and AuthorizedKeysCommandUser options
 		# from sshd_config of OpenSSH.
-		rm_config_option AuthorizedKeysCommand /usr/bin/mauth-keys
-		rm_config_option AuthorizedKeysCommandUser nobody
+		rm_config_option AuthorizedKeysCommand
+		rm_config_option AuthorizedKeysCommandUser
+		rm_config_option PermitUserEnvironment
 
 		invoke-rc.d ssh reload
 	;;

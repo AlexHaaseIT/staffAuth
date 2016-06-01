@@ -1,3 +1,9 @@
+mauth (1.3.1) unstable; urgency=medium
+
+  * set PermitUserEnvironment to yes in mauth-openssh postinst script
+
+ -- Alexander Haase <ahaase@alexhaase.de>  Wed, 01 Jun 2016 02:41:22 +0200
+
 mauth (1.3.0) unstable; urgency=low
 
   * merge from upstream
