@@ -1,0 +1,8 @@
+# Debian policies for packaging changed in stretch. Maintscripts do not have to
+# call ldconfig anymore and linitian will print a maintscript-calls-ldconfig
+# warning about it.
+#
+# To be compatible with jessie and stretch, we'll use the stretch behaviour here
+# and manually add the triggers, which are created by debhelper in stretch. The
+# postinst-must-call-ldconfig will be ignored.
+libmauth1: postinst-must-call-ldconfig

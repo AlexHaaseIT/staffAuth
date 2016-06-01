@@ -1,0 +1,7 @@
+libmauth.so.1 libmauth1 #MINVER#
+ mauth_destroy@Base 1.3.0
+ mauth_get_keys@Base 1.3.0
+ mauth_init@Base 1.3.0
+ mauth_keylist_free@Base 1.3.0
+ mauth_set_login@Base 1.3.0
+ mauth_verify_otp@Base 1.3.0

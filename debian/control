@@ -3,10 +3,60 @@ Maintainer: Alexander Haase <ahaase@alexhaase.de>
 Section: admin
 Priority: optional
 Build-Depends: cmake, debhelper (>= 9), libjson-c-dev, libcurl4-openssl-dev,
- libconfig-dev
+ libconfig-dev, libpam0g-dev, doxygen
 Standards-Version: 3.9.6
 #Vcs-Git: git://github.com/mksec/mauth.git
 #Vcs-Browser: https://github.com/mksec/mauth
+
+Package: libmauth1
+Architecture: any
+Multi-Arch: same
+Section: libs
+Priority: optional
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Mauth API framework - API communication library.
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the mauth library for API communications.
+
+Package: libmauth1-dbg
+Architecture: any
+Multi-Arch: same
+Section: debug
+Priority: extra
+Depends: libmauth1 (= ${binary:Version}), ${misc:Depends}
+Description: Mauth API framework - API communication library.
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the debug symbols for the libmauth package.
+
+Package: libmauth-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Priority: optional
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libmauth1 (= ${binary:Version})
+Description: Mauth API framework - API communication library.
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the development files of the mauth library.
 
 Package: mauth-openssh
 Architecture: any

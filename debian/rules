@@ -9,4 +9,5 @@ override_dh_auto_configure:
 
 .PHONY: override_dh_strip
 override_dh_strip:
+	dh_strip -plibmauth1 --dbg-package=libmauth1-dbg
 	dh_strip -pmauth-openssh --dbg-package=mauth-openssh-dbg
