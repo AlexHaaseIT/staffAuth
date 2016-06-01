@@ -68,6 +68,7 @@ set(PROJECT_VERSION
 # recurse into subdirectories
 #
 add_subdirectory(doc)
+add_subdirectory(conf)
 add_subdirectory(src)
 
 
