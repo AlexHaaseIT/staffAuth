@@ -58,6 +58,39 @@ Description: Mauth API framework - API communication library.
  .
  This package includes the development files of the mauth library.
 
+Package: libpam-mauth
+Architecture: any
+Multi-Arch: same
+Section: admin
+Priority: optional
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Mauth API framework - PAM module.
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the mauth PAM module.
+
+Package: libpam-mauth-dbg
+Architecture: any
+Multi-Arch: same
+Section: debug
+Priority: extra
+Depends: libpam-mauth (= ${binary:Version}), ${misc:Depends}
+Description: Mauth API framework - PAM module (debug symbols).
+ mauth is an authentication API for authenticating external employees at
+ customer services and machines for maintenance. Employees will be authenticated
+ by SSH-Keys and one time passwords.
+ .
+ mauth is NOT intended to authenticate local users! Use LDAP or similar
+ techniques instead.
+ .
+ This package includes the debug symbols for the libpam-mauth package.
+
 Package: mauth-openssh
 Architecture: any
 Multi-Arch: foreign
